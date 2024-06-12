@@ -1,0 +1,37 @@
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    font-family: "Roboto"
+}
+
+.header{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1{
+    margin-left: 1em;
+    font-family: "Roboto";
+}
+.container_header{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 50%;
+    margin-right: 2em;
+}
+
+.container_header ul{
+    padding-right:20px ;
+}
+.container_header ul li{
+    display: inline-block;
+    justify-content: space-between;
+    text-decoration: none;
+    list-style: none;
+    padding: 0px 20px;
+}
+
