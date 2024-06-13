@@ -4,6 +4,13 @@ body {
     margin: 0;
     font-family: "Roboto", sans-serif;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+    overflow-x: hidden; /* Bloquea el desplazamiento horizontal */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+    
 }
 
 
@@ -71,6 +78,74 @@ body {
 
 
 
+/*---------------------------------------------------------------------------Estrenos--------------------------------------------------------------------*/
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    background: #333;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
+
+.carousel-item {
+    flex: 0 0 auto; /* No permitir que los ítems se reduzcan más allá del tamaño de contenido */
+    width: 20%; /* Ajustar el tamaño de cada miniatura */
+    box-sizing: border-box;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto; /* Ajustar la altura automáticamente para mantener la proporción */
+    object-fit: cover; /* Ajustar imágenes para que ocupen el espacio sin distorsionarse */
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+
+
+/*---------------------------------------------------------------------------Estrenos--------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,9 +156,7 @@ body {
 /*---------------------------------------------------------------------------Footer--------------------------------------------------------------------*/
 .footer {
     background-color: #111111;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    margin-top: auto;
     width: 100%;
 }
 
