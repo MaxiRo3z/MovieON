@@ -1,51 +1,35 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const API_KEY = 'cc0bbbd7774ce2853272ceeb3db7db56'; // Reemplaza con tu clave de API real
-    const API_URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=es-ES&page=1`; // Endpoint para obtener próximas películas
+function App() {}
 
-    fetch(API_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const movies = data.results;
-            const carouselInner = document.getElementById('carousel-inner');
-            let slides = '';
+    window.onload= function(event){
+        let app = new App();
+        window.app = app;
 
-            movies.forEach((movie) => {
-                const posterPath = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                slides += `
-                    <div class="carousel-item">
-                        <img src="${posterPath}" alt="${movie.title}">
-                    </div>
-                `;
-            });
-
-            carouselInner.innerHTML = slides;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-
-    let slideIndex = 0;
-
-    window.plusSlides = function(n) {
-        showSlides(slideIndex += n);
     }
 
-    function showSlides(n) {
-        const slides = document.getElementsByClassName("carousel-item");
-        const totalSlides = slides.length;
-        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-        const slideWidth = slides[0].offsetWidth;
+    App.prototype.processingButton = function(event) {
+        const btn = event.currentTarget;
+        const carruselList= event.currentTarget.parentNode;
+        const track = event.currentTarget.parentNode.querySelector('#track');
+        const carrusel = track.querySelectorAll('.carrusel');
+        const carruselWidth= carrusel[0].offsetWidth;
 
-        if (n >= totalSlides) { slideIndex = 0 }
-        if (n < 0) { slideIndex = totalSlides - Math.floor(containerWidth / slideWidth) }
+        const trackWidth= track.offsetWidth
+        const listWidth = carruselList.offsetWidth;
 
-        const offset = -(slideWidth * slideIndex);
-        document.querySelector('.carousel-inner').style.transform = `translateX(${offset}px)`;
+        track.style.left == '' ? leftPosition = track.style.left = 0 : leftPosition = parseFloat(track.style.left.slice(0, -2) * -1);
+        
+        btn.dataset.button == 'button-prev' ? prevAction(leftPosition,carruselWidth,track) : nextAction(leftPosition,trackWidth,listWidth,carruselWidth,track)
     }
-});
+
+    let prevAction = (leftPosition, carruselWidth, track) => {
+        if(leftPosition > 0) {
+            track.style.left = `${-1 *(leftPosition - carruselWidth)}px`;
+        }
+    }
+
+    let nextAction = (leftPosition, trackWidth, listWidth, carruselWidth, track) => {
+        if(leftPosition < (trackWidth - listWidth)) {
+            track.style.left = `${-1 *(leftPosition + carruselWidth)}px`;
+        }
+    }
 
