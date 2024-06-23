@@ -20,9 +20,9 @@
             </form>
             <nav class="nav">
                 <ul>
-                    <li><a href="">Inicio</a></li>
-                    <li><a href="">Registrarse</a></li>
-                    <li><a href="">Iniciar Sesión</a></li>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+                    <li><a href="{{ url_for('logear') }}">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -45,7 +45,7 @@
                 {% for estreno in estrenos %}
                     <div class="carrusel">  
                         <div>
-                            <a href="/">
+                            <a href="{{ url_for('movie', movie_id= estreno['id']) }}">
                                 <picture>
                                     <img src="{{ estreno.poster_url }}" alt="Póster de {{ estreno.title }}">
                                 </picture>
@@ -75,7 +75,9 @@
         <div class="cuadricula">
             {% for pelicula in peliculas %}
             <div class="pelicula">
-                <img src="{{ pelicula.url_poster }}" alt="{{ pelicula.title }}">
+                <a href="{{ url_for('movie', movie_id= pelicula['id']) }}">
+                    <img src="{{ pelicula.url_poster }}" alt="{{ pelicula.title }}">
+                </a>
             </div>
             {% endfor %}
         </div>

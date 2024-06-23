@@ -34,11 +34,13 @@ body {
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    background-color: #000000;
 }
 
 .header h1 {
     margin-left: 1em;
     font-family: "Roboto", sans-serif;
+    color: #f1ecdf;
 }
 
 .container_header {
@@ -55,9 +57,14 @@ body {
 
 .container_header ul li {
     display: inline-block;
-    text-decoration: none;
     list-style: none;
     padding: 0px 20px;
+    
+}
+
+.container_header ul li a {
+    text-decoration: none;
+    color: #f1ecdf;
 }
 /*---------------------------------------------------------------------------Header--------------------------------------------------------------------*/
 
@@ -109,7 +116,7 @@ h2, small, a{
     font-weight: 600;
     text-align: center;
     color: #ffffff;
-    margin-top: 10px;
+    margin-top: 40px;
 }
 
 .carrousel_list {

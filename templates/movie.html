@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>{{ movie['title'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+                <li><a href="{{ url_for('logear') }}">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>{{ movie['title'] }}</h1>
+        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+        <p>{{ movie['overview'] }}</p>
+        <ul>
+            <li>Fecha de lanzamiento: {{ movie['release_date'] }}</li>
+            <li>Popularidad: {{ movie['popularity'] }}</li>
+            <li>Votos promedio: {{ movie['vote_average'] }}</li>
+            <li>Votos totales: {{ movie['vote_count'] }}</li>
+        </ul>
+    </main>
+    <footer class="footer">
+        <div class="footer_container">
+            <div class="social">
+                <a href="#"><img src="{{ url_for('static', filename='img/facebookblacksocialbuttoncircle_79771.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ url_for('static', filename='img/instagram_f_icon-icons.com_65485.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ url_for('static', filename='img/twitter_black_logo_icon_147062.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ url_for('static', filename='img/google_icon-icons.com_65444.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ url_for('static', filename='img/youtube_black_logo_icon_147044.svg') }}" alt=""></a>
+            </div>
+            <div class="footer_nav">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#">Contáctanos</a></li>
+                    <li><a href="#">Nuestro Equipo</a></li>
+                </ul>
+            </div>
+            <div class="copy">
+                <p>Copyright.&copy;2024, design by <span class="designer">Maxi & Sire's Company</span></p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

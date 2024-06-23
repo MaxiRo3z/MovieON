@@ -1,7 +1,8 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, url_for
 import requests
 
 api_key= 'cc0bbbd7774ce2853272ceeb3db7db56'
+base_url_api= 'https://api.themoviedb.org/3'
 
 def obtener_peliculas_proximas():
     url = f'https://api.themoviedb.org/3/movie/upcoming?api_key={api_key}&language=es-ES&page=1'
@@ -16,6 +17,7 @@ def obtener_peliculas_proximas():
             if poster_path:
                 full_poster_url = base_url + poster_path
                 peliculas_con_posters.append({
+                    'id': pelicula['id'],
                     'title': pelicula['title'],
                     'poster_url': full_poster_url
                 })
@@ -44,11 +46,23 @@ def obtener_peliculas():
                 if ruta_poster:
                     url_completa_poster = base_url_poster + ruta_poster
                     peliculas_con_posters.append({
+                        'id': pelicula['id'],
                         'titulo': pelicula['title'],
                         'url_poster': url_completa_poster
                     })
     
     return peliculas_con_posters
+
+def obtener_detalles_pelicuas(movie_id):
+    url = f'{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES'
+    response= requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+    
+
+
 
 app= Flask(__name__)
 
@@ -58,9 +72,17 @@ def index():
     peliculas= obtener_peliculas()
     return render_template("index.html", estrenos=estrenos, peliculas=peliculas)
 
-@app.route("/login")
-def login():
-    return render_template("inicio_sesion.html")
+@app.route('/movie/<int:movie_id>')
+def movie(movie_id):
+    detalles_pelicula=obtener_detalles_pelicuas(movie_id)
+    if detalles_pelicula:
+        return render_template("movie.html", movie=detalles_pelicula)
+    else:
+        return "Pelicula no encontrada", 404
+
+@app.route("/logear")
+def logear():
+    return render_template("sesion.html")
 
 @app.route("/register")
 def register():
