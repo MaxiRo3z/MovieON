@@ -6,25 +6,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                <li><a href="{{ url_for('register') }}">Registrarse</a></li>
-                <li><a href="{{ url_for('logear') }}">Iniciar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="header">
+        <h1>MovieON</h1>
+        <div class="container_header">
+            <form action="GET">
+                <input type="text" value="Buscar...">
+                <button type="submit">Enviar</button>
+            </form>
+            <nav class="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+                    <li><a href="{{ url_for('logear') }}">Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <main>
-        <h1>{{ movie['title'] }}</h1>
         <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
-        <p>{{ movie['overview'] }}</p>
+        <h1>{{ movie['title'] }}</h1>
         <ul>
             <li>Fecha de lanzamiento: {{ movie['release_date'] }}</li>
             <li>Popularidad: {{ movie['popularity'] }}</li>
             <li>Votos promedio: {{ movie['vote_average'] }}</li>
             <li>Votos totales: {{ movie['vote_count'] }}</li>
         </ul>
+        <p>{{ movie['overview'] }}</p>
+
     </main>
     <footer class="footer">
         <div class="footer_container">
