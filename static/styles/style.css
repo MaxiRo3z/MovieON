@@ -225,9 +225,9 @@ h2, small, a{
     }
     .pelicula {
         margin: 10px;
-        background: white;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
         overflow: hidden;
         transition: transform 0.2s, box-shadow 0.2s;
         width: 200px;
@@ -236,7 +236,7 @@ h2, small, a{
     }
     .pelicula img {
         width: 100%;
-        height: auto;
+        height: 100%;
     }
 
     .pelicula:hover {
