@@ -15,9 +15,9 @@
             </form>
             <nav class="nav">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                    <li><a href="{{ url_for('register') }}">Registrarse</a></li>
-                    <li><a href="{{ url_for('logear') }}">Iniciar Sesión</a></li>
+                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
+                    <li><a href="{{ url_for('auth.logear') }}">Iniciar Sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -32,7 +32,6 @@
             <li>Votos totales: {{ movie['vote_count'] }}</li>
         </ul>
         <p>{{ movie['overview'] }}</p>
-
     </main>
     <footer class="footer">
         <div class="footer_container">
@@ -45,7 +44,7 @@
             </div>
             <div class="footer_nav">
                 <ul>
-                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
                     <li><a href="#">Sobre Nosotros</a></li>
                     <li><a href="#">Contáctanos</a></li>
                     <li><a href="#">Nuestro Equipo</a></li>
