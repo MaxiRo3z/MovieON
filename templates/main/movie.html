@@ -10,7 +10,7 @@
         <h1>MovieON</h1>
         <div class="container_header">
             <form action="GET">
-                <input type="text" value="Buscar...">
+                <input type="text" value="Buscar..." class="busqueda">
                 <button type="submit">Enviar</button>
             </form>
             <nav class="nav">
@@ -22,16 +22,18 @@
             </nav>
         </div>
     </div>
-    <main>
-        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
-        <h1>{{ movie['title'] }}</h1>
-        <ul>
-            <li>Fecha de lanzamiento: {{ movie['release_date'] }}</li>
-            <li>Popularidad: {{ movie['popularity'] }}</li>
-            <li>Votos promedio: {{ movie['vote_average'] }}</li>
-            <li>Votos totales: {{ movie['vote_count'] }}</li>
-        </ul>
-        <p>{{ movie['overview'] }}</p>
+    <main class="movie-main">
+            <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}" class="movie-img">
+            <div class="movie-info">
+                <h1 class="movie-info_titulo">{{ movie['title'] }}</h1>
+                    <ul>
+                        <li>Fecha de lanzamiento: {{ movie['release_date'] }}</li>
+                        <li>Popularidad: {{ movie['popularity'] }}</li>
+                        <li>Votos promedio: {{ movie['vote_average'] }}</li>
+                        <li>Votos totales: {{ movie['vote_count'] }}</li>
+                    </ul>
+                <p>{{ movie['overview'] }}</p>
+            </div>    
     </main>
     <footer class="footer">
         <div class="footer_container">
