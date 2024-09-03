@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/inicio_sesion.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
 <body>
+    <div class="header">
+        <h1><a href="../">MovieON</a></h1>
+        <div class="container_header">
+            <form action="GET">
+                <input type="text" value="Buscar..." class="busqueda">
+                <button type="submit">Enviar</button>
+            </form>
+            <nav class="nav">
+                <ul>
+                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
         <form method="POST" action="{{ url_for('auth.logear') }}">
