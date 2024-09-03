@@ -1,7 +1,12 @@
 from flask import Flask
 from Routes import main_bp, auth_bp
+from database.db import session
 
 app = Flask(__name__)
+app.config.from_pyfile('.env')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'your_secret_key'
 
 
 # Registrar Blueprints

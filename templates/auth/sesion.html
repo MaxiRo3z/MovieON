@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/inicio_sesion.css') }}">
 </head>
 <body>
-  
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form method="POST" action="{{ url_for('auth.logear') }}">
+            <label for="username">Nombre de usuario:</label>
+            <input type="text" name="username" id="username" required>
+            
+            <label for="password">Contraseña:</label>
+            <input type="password" name="password" id="password" required>
+            
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>
