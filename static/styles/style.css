@@ -418,4 +418,43 @@ h2, small, a{
     border-radius: 5px;
 }
 
+/*-----------------------------------Registro/Inicio de sesion----------------------------------------------------*/
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    background-color: #a70506;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    padding: 20px;
+    grid-column: 2;
+    justify-self: center; /* Centra horizontalmente */
+    align-self: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    height: 350px;
+    width: 250px;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 250px;
+    justify-content: space-evenly;
+}
+.login-main {
+    background-image: url("../img/collage_fondo.jpg");
+
+}
+.alert-login {
+    background-color:#f1c49a
+}
+.input-campo {
+    width: 97%;
+
+}
 
