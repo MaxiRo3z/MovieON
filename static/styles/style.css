@@ -62,28 +62,89 @@ h1 a:hover {
 
 /* Estilos del menú de navegación */
 .nav_list {
-    list-style: none;
-    text-decoration: none;
-    display: flex;
-    gap: 20px;
+    list-style: none; /* Elimina los puntos de la lista */
     margin: 0;
     padding: 0;
+    display: flex;
+    gap: 20px;
     align-items: center;
+    position: relative;
 }
 
 .nav_list li {
-    display: inline;
+    position: relative; /* Necesario para posicionar el dropdown */
 }
+
 
 .nav_list a {
     color: white;
     font-weight: 500;
     text-decoration: none;
     font-size: 18px;
+    padding: 10px 15px; /* Espaciado en el enlace principal */
+    border-radius: 4px; /* Esquinas redondeadas */
+    transition: background-color 0.2s; /* Transición suave para el fondo */
+}
+.nav_list li ul {
+    list-style: none; /* Elimina los puntos del menú desplegable */
+    padding: 0;
+    margin: 0;
 }
 
 .nav_list a:hover {
-    text-decoration: underline;
+    background-color: #f1c49a; /* Fondo al pasar el mouse */
+    color: #fff; /* Color de texto al pasar el mouse */
+}
+
+/* Estilos del menú desplegable */
+.dropdown {
+    display: none; /* Oculta el menú desplegable inicialmente */
+    position: absolute; /* Posiciona el dropdown */
+    left: 0; /* Alinea el dropdown con el padre */
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 4px; /* Esquinas redondeadas */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 5px 0; /* Espaciado interno reducido */
+    top: 32px; /* Aumenta el margen superior para separar el dropdown */
+}
+
+.nav_list li:hover .dropdown {
+    display: block; /* Muestra el dropdown al pasar el mouse */
+}
+
+/* Elementos del dropdown */
+.dropdown li {
+    padding: 4px 12px; /* Espacio entre los elementos del dropdown */
+}
+
+.dropdown a {
+    color: #333; /* Color de texto del dropdown */
+    font-size: 14px; /* Tamaño de fuente del dropdown */
+    display: block; /* Hace clic en toda el área del enlace */
+    transition: background-color 0.2s; /* Transición suave para el fondo */
+}
+
+.dropdown a:hover {
+    background-color: #f1c49a; /* Fondo al pasar el mouse */
+    color: #fff; /* Color de texto al pasar el mouse */
+}
+
+/* Estilo del enlace principal */
+.nav_list li > a {
+    padding: 10px 15px; /* Espaciado en el enlace principal */
+    border-radius: 4px; /* Esquinas redondeadas */
+    transition: background-color 0.2s; /* Transición suave para el fondo */
+}
+
+.nav_list li > a:hover {
+    background-color: #f1c49a; /* Fondo al pasar el mouse */
+    color: #fff; /* Color de texto al pasar el mouse */
+}
+
+.nav_list li.active > a {
+    background-color: #f1c49a; /* Fondo resaltado */
+    color: #fff; /* Color de texto resaltado */
 }
 
 /* Estilo de la parte derecha (búsqueda, idioma, sesión) */
@@ -105,9 +166,10 @@ h1 a:hover {
     height: 3em;
 }
 
-.icon_button span{
+.icon_button span {
     color: #f1c49a;
 }
+
 .header_link {
     color: white;
     font-weight: 500;
@@ -117,7 +179,6 @@ h1 a:hover {
 .header_link:hover {
     text-decoration: underline;
 }
-
 
 
 
@@ -146,22 +207,31 @@ h2, small, a{
 
 .carrousel_title h2 {
     font-size: 45px;
-    line-height: 10px;
-    padding-bottom: 50px;
-    opacity: .9;
+    line-height: 1.2;
     text-transform: uppercase;
     font-weight: 600;
-    text-align: left;
     color: #ffffff;
-    margin-top: 40px;
-    margin-bottom: 10px; /* Añade espacio debajo del título */
+    text-align: center; /* Centra el título de "Películas" */
+    margin: 30px 0 5px 0; /* Ajusta el espacio superior e inferior */
 }
 .carrousel {
     width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido del carrousel */
+    align-items: center; /* Asegura que el carrusel esté centrado */
+}
+
+.carrousel h2 {
+    font-size: 30px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 20px 0 10px 0; /* Elimina margen izquierdo */
+    text-align: left;
+    width: 88vw; /* Asegura que el ancho sea el mismo que el del carrusel */
+    padding-left: calc((100% - 88vw) / 2 - 80px); /* Alinea los títulos con el carrusel */
 }
 
 .carrousel_list {
@@ -169,7 +239,7 @@ h2, small, a{
     align-items: center;
     position: relative;
     width: 100%;
-    max-width: 88vw; /* Ajusta esto si el carrusel es más ancho de lo esperado */
+    max-width: 88vw; /* Ajusta el ancho del carrusel */
     height: 400px;
     overflow: hidden;
     margin: auto;

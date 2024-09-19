@@ -44,3 +44,12 @@ App.prototype.nextAction = function(leftPosition, carruselWidth, track, trackWid
     }
 }
 
+const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Selecciona el enlace "Películas"
+    
+    peliculasLink.addEventListener('mouseenter', () => {
+        peliculasLink.classList.add('active'); // Agrega la clase cuando el mouse entra
+    });
+
+    peliculasLink.addEventListener('mouseleave', () => {
+        peliculasLink.classList.remove('active'); // Remueve la clase cuando el mouse sale
+    });
