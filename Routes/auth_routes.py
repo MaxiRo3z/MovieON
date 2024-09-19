@@ -38,22 +38,22 @@ def register():
 
         try:
             # Verificar si el usuario ya existe
-            existing_user = session.query(User).filter_by(username=username).first()
+            existing_user = db_session.query(User).filter_by(username=username).first()
             if existing_user:
                 flash('El nombre de usuario ya está en uso')
                 return redirect(url_for('auth.register'))
 
             # Crear un nuevo usuario
             new_user = User(username=username, password_hash=password_hash)
-            session.add(new_user)
-            session.commit()
+            db_session.add(new_user)
+            db_session.commit()
             flash('Registro exitoso!')
             return redirect(url_for('auth.logear'))
         except IntegrityError:
-            session.rollback()
+            db_session.rollback()
             flash('Error al registrar el usuario.')
         except Exception as e:
-            session.rollback()
+            db_session.rollback()
             flash(f'Error inesperado: {e}')
 
     return render_template("auth/registro.html")

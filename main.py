@@ -4,6 +4,11 @@ from database.db import session
 
 app = Flask(__name__)
 
+@app.after_request
+def add_header(response):
+    response.cache_control.no_store = True
+    return response
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'

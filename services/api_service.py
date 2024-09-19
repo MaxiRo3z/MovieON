@@ -23,7 +23,6 @@ def obtener_peliculas_proximas():
 
 def obtener_peliculas():
     endpoints = [
-        f'{base_url_api}/movie/now_playing?api_key={api_key}&language=es-ES&page=1',
         f'{base_url_api}/movie/popular?api_key={api_key}&language=es-ES&page=1',
     ]
     peliculas_con_posters = []
