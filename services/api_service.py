@@ -47,6 +47,42 @@ def obtener_peliculas():
                     ids_ya_agregados.add(movie_id)
     return peliculas_con_posters
 
+def obtener_series_proximas():
+    url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=es-ES&page=1'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        series = data['results']
+        base_url = 'https://image.tmdb.org/t/p/w500'
+        series_con_posters = [
+            {
+                'id': serie['id'],
+                'title': serie['name'],  # Para series, el campo es 'name'
+                'poster_url': base_url + serie['poster_path']
+            }
+            for serie in series if serie['poster_path']
+        ]
+        return series_con_posters
+    return []
+
+def obtener_series_populares():
+    url = f'{base_url_api}/tv/popular?api_key={api_key}&language=es-ES&page=1'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        series = data['results']
+        base_url = 'https://image.tmdb.org/t/p/w500'
+        series_con_posters = [
+            {
+                'id': serie['id'],
+                'title': serie['name'],  # Para series, el campo es 'name'
+                'poster_url': base_url + serie['poster_path']
+            }
+            for serie in series if serie['poster_path']
+        ]
+        return series_con_posters
+    return []
+
 def obtener_detalles_pelicuas(movie_id):
     url = f'{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES'
     response = requests.get(url)

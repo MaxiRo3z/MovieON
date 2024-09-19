@@ -126,7 +126,7 @@ h1 a:hover {
 }
 
 .dropdown a:hover {
-    background-color: #f1c49a; /* Fondo al pasar el mouse */
+    background-color: #f58723; /* Fondo al pasar el mouse */
     color: #fff; /* Color de texto al pasar el mouse */
 }
 
@@ -138,12 +138,12 @@ h1 a:hover {
 }
 
 .nav_list li > a:hover {
-    background-color: #f1c49a; /* Fondo al pasar el mouse */
+    background-color: #f58723; /* Fondo al pasar el mouse */
     color: #fff; /* Color de texto al pasar el mouse */
 }
 
 .nav_list li.active > a {
-    background-color: #f1c49a; /* Fondo resaltado */
+    background-color: #f58723; /* Fondo resaltado */
     color: #fff; /* Color de texto resaltado */
 }
 

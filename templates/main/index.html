@@ -62,4 +62,63 @@
             </button>
         </div>
     </div>
+    <div class="carrousel_title">
+        <h2>Series</h2>
+    </div>
+    <div class="carrousel">
+        <h2>Estrenos</h2>
+        <div class="carrousel_list" id="carrousel_list">
+            <button class="carrusel-arrow carrusel-prev" id="button-prev" data-button="button-prev"
+                onclick="app.processingButton(event)">
+                <!-- SVG icon here -->
+            </button>
+
+            <div class="carrusel-track" id="track">
+                {% for serie in series %}
+                    <div class="carrusel">  
+                        <div>
+                            <a href="{{ url_for('main.index', series_id= serie['id']) }}">
+                                <picture>
+                                    <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next"
+                onclick="app.processingButton(event)">
+                <!-- SVG icon here -->
+            </button>
+        </div>
+    </div>
+    <div class="carrousel">
+        <h2>Populares</h2>
+        <div class="carrousel_list" id="carrousel_list">
+            <button class="carrusel-arrow carrusel-prev" id="button-prev" data-button="button-prev"
+                onclick="app.processingButton(event)">
+                <!-- SVG icon here -->
+            </button>
+
+            <div class="carrusel-track" id="track">
+                {% for serie in seriesp %}
+                    <div class="carrusel">  
+                        <div>
+                            <a href="{{ url_for('main.index', seriesp_id= serie['id']) }}">
+                                <picture>
+                                    <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next"
+                onclick="app.processingButton(event)">
+                <!-- SVG icon here -->
+            </button>
+        </div>
+    </div>
 {% endblock %}   
