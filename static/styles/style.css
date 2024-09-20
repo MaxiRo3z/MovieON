@@ -14,7 +14,7 @@ body {
     overflow-x: hidden; /* Bloquea el desplazamiento horizontal */
     overflow-y: auto; /* Permite el desplazamiento vertical */
     
-    background-color: #f1c49a;
+    background-color: #1c1c1c;
 }
 
 /* Corrección para el hover del título */

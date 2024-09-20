@@ -53,3 +53,5 @@ const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Se
     peliculasLink.addEventListener('mouseleave', () => {
         peliculasLink.classList.remove('active'); // Remueve la clase cuando el mouse sale
     });
+
+

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/peliculas.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Barra lateral de filtros -->
+    <div class="sidebar">
+        <button class="filter-button">Ordenar</button>
+        <button class="filter-button">Dónde se puede ver</button>
+
+        <div class="filter-section">
+            <h3>Filtros</h3>
+            <div class="filter">
+                <h4>Muéstrame</h4>
+                <label><input type="radio" name="filter" checked> Todo</label>
+                <label><input type="radio" name="filter"> Películas que no he visto</label>
+                <label><input type="radio" name="filter"> Películas que he visto</label>
+            </div>
+
+            <div class="filter">
+                <h4>Disponibilidad</h4>
+                <label><input type="checkbox" checked> ¿Buscar por todas las disponibilidades?</label>
+            </div>
+
+            <div class="filter">
+                <h4>Fechas de estreno</h4>
+                <label><input type="checkbox"> ¿Buscar por fecha de estreno?</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid de películas -->
+    <div class="movies-grid">
+        <h2>Películas populares</h2>
+        <div class="grid">
+            {% for pelicula in peliculas %}
+                <div class="movie-card">
+                    <img src="{{ pelicula['url_poster'] }}" alt="{{ pelicula['titulo'] }}">
+                    <div class="movie-info">
+                        <h4>{{ pelicula['titulo'] }}</h4>
+                        <!-- Puedes agregar la fecha de estreno si la tienes disponible -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
