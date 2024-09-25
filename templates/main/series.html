@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/indpeli.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-details-container" style="background-image: url('{{ detalles_serie.url_backdrop }}');">
+    <div class="movie-header">
+        <div class="poster">
+            <img src="{{ detalles_serie.url_poster or '/static/img/default-poster.jpg' }}" alt="Poster de la película">
+        </div>
+        <div class="movie-info">
+            <h1>{{ detalles_serie.titulo_pelicula }}</h1> <!-- Cambiar a titulo_pelicula -->
+            <div class="sub-info">
+                <span>Fecha de estreno: {{ detalles_serie.fecha_estreno }}</span>
+                <span class="classification">{{ detalles_serie.clasificacion }}</span>
+            </div>
+            <div class="user-rating">
+                <div class="rating-circle">{{ detalles_serie.puntuacion_usuario }}</div> <!-- Cambiar a puntuacion_usuario -->
+                <button class="vibe-btn">Califica esta película</button>
+            </div>
+            <div class="movie-actions">
+                <button class="action-btn">Me gusta</button>
+                <button class="action-btn">Guardar</button>
+                <button class="trailer-btn">Ver Tráiler</button>
+            </div>
+            <div class="movie-overview">
+                <h2>Vista General</h2>
+                <p>{{ detalles_serie.resumen_pelicula }}</p> <!-- Cambiar a resumen_pelicula -->
+            </div>
+            <div class="crew">
+                <p><strong>Director:</strong> {{ detalles_serie.director }}</p>
+                <p><strong>Guionista:</strong> {{ detalles_serie.guionista }}</p>
+                <!-- Agrega más detalles del equipo aquí -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

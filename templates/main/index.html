@@ -77,7 +77,7 @@
                 {% for serie in series %}
                     <div class="carrusel">  
                         <div>
-                            <a href="{{ url_for('main.index', series_id= serie['id']) }}">
+                            <a href="{{ url_for('main.index', serie_id= serie['id']) }}">
                                 <picture>
                                     <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
                                 </picture>
@@ -105,7 +105,7 @@
                 {% for serie in seriesp %}
                     <div class="carrusel">  
                         <div>
-                            <a href="{{ url_for('main.index', seriesp_id= serie['id']) }}">
+                            <a href="{{ url_for('main.index', serie_id= serie['id']) }}">
                                 <picture>
                                     <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
                                 </picture>

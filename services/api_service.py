@@ -86,7 +86,7 @@ def obtener_series_proximas():
         data = response.json()
         series = data['results']
         base_url = 'https://image.tmdb.org/t/p/w500'
-        series_con_posters = [
+        series_con_posterso = [
             {
                 'id': serie['id'],
                 'title': serie['name'],  # Para series, el campo es 'name'
@@ -94,7 +94,7 @@ def obtener_series_proximas():
             }
             for serie in series if serie['poster_path']
         ]
-        return series_con_posters
+        return series_con_posterso
     return []
 
 def obtener_series_populares():
@@ -104,7 +104,7 @@ def obtener_series_populares():
         data = response.json()
         series = data['results']
         base_url = 'https://image.tmdb.org/t/p/w500'
-        series_con_posters = [
+        series_con_postersp = [
             {
                 'id': serie['id'],
                 'title': serie['name'],  # Para series, el campo es 'name'
@@ -112,10 +112,67 @@ def obtener_series_populares():
             }
             for serie in series if serie['poster_path']
         ]
-        return series_con_posters
+        return series_con_postersp
     return []
 
 def obtener_detalles_pelicuas(movie_id):
-    url = f'{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES'
-    response = requests.get(url)
-    return response.json() if response.status_code == 200 else None
+    base_url_poster = 'https://image.tmdb.org/t/p/w500'
+    base_url_backdrop = 'https://image.tmdb.org/t/p/original'
+    response = requests.get(f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES")
+    credits_response = requests.get(f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=es-ES")
+    if response.status_code == 200 and credits_response.status_code == 200:
+        data = response.json()
+        credits_data = credits_response.json()
+
+        # Filtrar el equipo (crew) para obtener director y guionista
+        crew = credits_data['crew']
+        directores = [person['name'] for person in crew if person['job'] == 'Director']
+        guionistas = [person['name'] for person in crew if person['job'] in ['Screenplay', 'Writer']]
+
+        detalles_pelicula = {
+            'titulo_pelicula': data['title'],
+            'anio_estreno': data['release_date'][:4],
+            'clasificacion': 'PG-13' if data['adult'] else 'PG',
+            'fecha_estreno': data['release_date'],
+            'generos': ', '.join([g['name'] for g in data['genres']]),
+            'duracion': f"{data['runtime']} mins",
+            'puntuacion_usuario': int(data['vote_average'] * 10),
+            'resumen_pelicula': data['overview'],
+            'director': ','.join(directores) if directores else 'Desconocido',  # Añadir lógica para obtener el director
+            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',  # Añadir lógica para obtener el guionista
+            'url_poster': base_url_poster + data['poster_path'],
+            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None  # Imagen de fondo
+        }
+        return detalles_pelicula
+    
+def obtener_detalles_series(serie_id):
+    base_url_poster = 'https://image.tmdb.org/t/p/w500'
+    base_url_backdrop = 'https://image.tmdb.org/t/p/original'
+
+    response = requests.get(f"{base_url_api}/tv/{serie_id}?api_key={api_key}&language=es-ES")
+    credits_response = requests.get(f"{base_url_api}/tv/{serie_id}/credits?api_key={api_key}&language=es-ES")
+    
+    if response.status_code == 200 and credits_response.status_code == 200:
+        data = response.json()
+        credits_data = credits_response.json()
+
+        # Filtrar el equipo (crew) para obtener director y guionista
+        crew = credits_data['crew']
+        directores = [person['name'] for person in crew if person['job'] == 'Director']
+        guionistas = [person['name'] for person in crew if person['job'] in ['Screenplay', 'Writer']]
+
+        detalles_serie = {
+            'titulo_pelicula': data['name'],
+            'anio_estreno': data['first_air_date'][:4],
+            'clasificacion': 'PG-13' if data['adult'] else 'PG',
+            'fecha_estreno': data['first_air_date'],
+            'generos': ', '.join([g['name'] for g in data['genres']]),
+            'duracion': f"{data['episode_run_time'][0]} mins" if data['episode_run_time'] else 'Desconocido',
+            'puntuacion_usuario': int(data['vote_average'] * 10),
+            'resumen_pelicula': data['overview'],
+            'director': ','.join(directores) if directores else 'Desconocido',  # Añadir lógica para obtener el director
+            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',  # Añadir lógica para obtener el guionista
+            'url_poster': base_url_poster + data['poster_path'],
+            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None  # Imagen de fondo
+        }
+    return detalles_serie

@@ -1,61 +1,43 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>{{ movie['title'] }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-</head>
-<body>
-    <div class="header">
-        <h1><a href="../">MovieON</a></h1>
-        <div class="container_header">
-            <form action="GET">
-                <input type="text" value="Buscar..." class="busqueda">
-                <button type="submit">Enviar</button>
-            </form>
-            <nav class="nav">
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                    <li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
-                    <li><a href="{{ url_for('auth.logear') }}">Iniciar Sesión</a></li>
-                </ul>
-            </nav>
+{% extends 'base.html' %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/indpeli.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-details-container" style="background-image: url('{{ detalles_pelicula.url_backdrop }}');">
+    <div class="movie-header">
+        <div class="poster">
+            <img src="{{ detalles_pelicula.url_poster or '/static/img/default-poster.jpg' }}" alt="Poster de la película">
+        </div>
+        <div class="movie-info">
+            <h1>{{ detalles_pelicula.titulo_pelicula }}</h1> <!-- Cambiar a titulo_pelicula -->
+            <div class="sub-info">
+                <span>Fecha de estreno: {{ detalles_pelicula.fecha_estreno }}</span>
+                <span class="classification">{{ detalles_pelicula.clasificacion }}</span>
+            </div>
+            <div class="user-rating">
+                <div class="rating-circle">{{ detalles_pelicula.puntuacion_usuario }}</div> <!-- Cambiar a puntuacion_usuario -->
+                <button class="vibe-btn">Califica esta película</button>
+            </div>
+            <div class="movie-actions">
+                <button class="action-btn">Me gusta</button>
+                <button class="action-btn">Guardar</button>
+                <button class="trailer-btn">Ver Tráiler</button>
+            </div>
+            <div class="movie-overview">
+                <h2>Vista General</h2>
+                <p>{{ detalles_pelicula.resumen_pelicula }}</p> <!-- Cambiar a resumen_pelicula -->
+            </div>
+            <div class="crew">
+                <p><strong>Director:</strong> {{ detalles_pelicula.director }}</p>
+                <p><strong>Guionista:</strong> {{ detalles_pelicula.guionista }}</p>
+                <!-- Agrega más detalles del equipo aquí -->
+            </div>
         </div>
     </div>
-    <main class="movie-main">
-            <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}" class="movie-img">
-            <div class="movie-info">
-                <h1 class="movie-info_titulo">{{ movie['title'] }}</h1>
-                    <ul>
-                        <li>Fecha de lanzamiento: {{ movie['release_date'] }}</li>
-                        <li>Popularidad: {{ movie['popularity'] }}</li>
-                        <li>Votos promedio: {{ movie['vote_average'] }}</li>
-                        <li>Votos totales: {{ movie['vote_count'] }}</li>
-                    </ul>
-                <p>{{ movie['overview'] }}</p>
-            </div>    
-    </main>
-    <footer class="footer">
-        <div class="footer_container">
-            <div class="social">
-                <a href="#"><img src="{{ url_for('static', filename='img/facebookblacksocialbuttoncircle_79771.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/instagram_f_icon-icons.com_65485.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/twitter_black_logo_icon_147062.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/google_icon-icons.com_65444.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/youtube_black_logo_icon_147044.svg') }}" alt=""></a>
-            </div>
-            <div class="footer_nav">
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                    <li><a href="#">Sobre Nosotros</a></li>
-                    <li><a href="#">Contáctanos</a></li>
-                    <li><a href="#">Nuestro Equipo</a></li>
-                </ul>
-            </div>
-            <div class="copy">
-                <p>Copyright.&copy;2024, design by <span class="designer">Maxi & Sire's Company</span></p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask import render_template
-from services.api_service import obtener_peliculas_proximas, obtener_peliculas, obtener_detalles_pelicuas,obtener_series_proximas,obtener_series_populares,pagina_peliculas
+from services.api_service import *
 
 from . import main_bp
 
@@ -12,7 +12,7 @@ def index():
     return render_template("main/index.html", estrenos=estrenos, peliculas=peliculas,series=series, seriesp=series_p)
 
 @main_bp.route("/peliculas")
-def peliculas():
+def peliculas_ruta():
     peliculas= pagina_peliculas()
     return render_template('main/peliculas.html',peliculas=peliculas)
 
@@ -20,7 +20,14 @@ def peliculas():
 def movie(movie_id):
     detalles_pelicula = obtener_detalles_pelicuas(movie_id)
     if detalles_pelicula:
-        return render_template("main/movie.html", movie=detalles_pelicula)
+        return render_template("main/movie.html", detalles_pelicula=detalles_pelicula)
     else:
         return "Pelicula no encontrada", 404
     
+@main_bp.route('/series/<int:serie_id>')
+def serie(serie_id):
+    detalles_series = obtener_detalles_series(serie_id)
+    if detalles_series:
+        return render_template("main/serie.html", detalles_serie=detalles_series)
+    else:
+        return "Pelicula no encontrada", 404
