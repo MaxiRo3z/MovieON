@@ -28,6 +28,6 @@ def movie(movie_id):
 def serie(serie_id):
     detalles_series = obtener_detalles_series(serie_id)
     if detalles_series:
-        return render_template("main/serie.html", detalles_serie=detalles_series)
+        return render_template("main/series.html", detalles_serie=detalles_series)
     else:
         return "Pelicula no encontrada", 404

@@ -72,12 +72,12 @@
                 onclick="app.processingButton(event)">
                 <!-- SVG icon here -->
             </button>
-
+    
             <div class="carrusel-track" id="track">
                 {% for serie in series %}
                     <div class="carrusel">  
                         <div>
-                            <a href="{{ url_for('main.index', serie_id= serie['id']) }}">
+                            <a href="{{ url_for('main.serie', serie_id=serie['id']) }}">
                                 <picture>
                                     <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
                                 </picture>
@@ -86,7 +86,7 @@
                     </div>
                 {% endfor %}
             </div>
-
+    
             <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next"
                 onclick="app.processingButton(event)">
                 <!-- SVG icon here -->
@@ -100,12 +100,12 @@
                 onclick="app.processingButton(event)">
                 <!-- SVG icon here -->
             </button>
-
+    
             <div class="carrusel-track" id="track">
                 {% for serie in seriesp %}
                     <div class="carrusel">  
                         <div>
-                            <a href="{{ url_for('main.index', serie_id= serie['id']) }}">
+                            <a href="{{ url_for('main.serie', serie_id=serie['id']) }}">
                                 <picture>
                                     <img src="{{ serie.poster_url }}" alt="Póster de {{ serie.title }}">
                                 </picture>
@@ -114,7 +114,7 @@
                     </div>
                 {% endfor %}
             </div>
-
+    
             <button class="carrusel-arrow carrusel-next" id="button-next" data-button="button-next"
                 onclick="app.processingButton(event)">
                 <!-- SVG icon here -->
