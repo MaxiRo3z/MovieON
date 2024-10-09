@@ -25,7 +25,11 @@
             <div class="movie-actions">
                 <button class="action-btn">Me gusta</button>
                 <button class="action-btn">Guardar</button>
-                <button class="trailer-btn">Ver Tráiler</button>
+                {% if detalles_pelicula.trailer_url %}
+                    <button class="trailer-btn" onclick="mostrarTrailer()">Ver Tráiler</button>
+                {% else %}
+                    <button class="trailer-btn" disabled>Tráiler no disponible</button>
+                {% endif %}
             </div>
             <div class="movie-overview">
                 <h2>Vista General</h2>
@@ -39,5 +43,12 @@
         </div>
     </div>
 </div>
-
+{% if detalles_pelicula.trailer_url %}
+    <div id="trailer-container">
+        <h2>Tráiler</h2>
+        <iframe id="trailer-iframe" src="{{ detalles_pelicula.trailer_url }}" width="100%" height="450" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+{% else %}
+    <p>Tráiler no disponible.</p>
+{% endif %}
 {% endblock %}

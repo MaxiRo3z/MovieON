@@ -72,3 +72,9 @@ const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Se
       }
     }
 */
+function mostrarTrailer() {
+    const trailerContainer = document.getElementById('trailer-container');
+    const trailerIframe = document.getElementById('trailer-iframe');
+    trailerIframe.src = "{{ detalles_pelicula.trailer_url }}"; // Inserta la URL del tráiler
+    trailerContainer.style.display = "block"; // Muestra el contenedor del tráiler
+}

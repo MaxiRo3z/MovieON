@@ -18,7 +18,7 @@ def peliculas_ruta():
     peliculas, total_peliculas = pagina_peliculas()  # Esto ahora debería funcionar correctamente
 
     # Definir cuántas mostrar por página
-    peliculas_por_pagina = 20
+    peliculas_por_pagina = 21
 
     # Calcular el total de páginas
     total_paginas = math.ceil(total_peliculas / peliculas_por_pagina)

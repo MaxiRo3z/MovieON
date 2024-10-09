@@ -126,14 +126,34 @@ def obtener_detalles_pelicuas(movie_id):
     base_url_backdrop = 'https://image.tmdb.org/t/p/original'
     response = requests.get(f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES")
     credits_response = requests.get(f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=es-ES")
-    if response.status_code == 200 and credits_response.status_code == 200:
+    videos_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+
+    if response.status_code == 200 and credits_response.status_code == 200 and videos_response.status_code == 200:
         data = response.json()
         credits_data = credits_response.json()
+        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+
+    if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
+        data = response.json()
+        credits_data = credits_response.json()
+        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+
+    if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
+        data = response.json()
+        credits_data = credits_response.json()
+        video_data = video_response.json()
 
         # Filtrar el equipo (crew) para obtener director y guionista
         crew = credits_data['crew']
         directores = [person['name'] for person in crew if person['job'] == 'Director']
         guionistas = [person['name'] for person in crew if person['job'] in ['Screenplay', 'Writer']]
+
+        # Obtener el primer tráiler de YouTube disponible
+        trailer_url = None
+        for video in video_data['results']:
+            if video['type'] == 'Trailer' and video['site'] == 'YouTube':
+                trailer_url = f"https://www.youtube.com/embed/{video['key']}"
+                break
 
         detalles_pelicula = {
             'titulo_pelicula': data['title'],
@@ -144,10 +164,11 @@ def obtener_detalles_pelicuas(movie_id):
             'duracion': f"{data['runtime']} mins",
             'puntuacion_usuario': int(data['vote_average'] * 10),
             'resumen_pelicula': data['overview'],
-            'director': ','.join(directores) if directores else 'Desconocido',  # Añadir lógica para obtener el director
-            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',  # Añadir lógica para obtener el guionista
+            'director': ','.join(directores) if directores else 'Desconocido',
+            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',
             'url_poster': base_url_poster + data['poster_path'],
-            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None  # Imagen de fondo
+            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None,
+            'trailer_url': trailer_url  # Añadimos la URL del tráiler
         }
         return detalles_pelicula
     

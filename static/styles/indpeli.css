@@ -144,3 +144,32 @@ body {
     box-sizing: border-box;
     backdrop-filter: blur(2px);
 }
+
+#trailer-container {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno */
+    margin-top: 20px; /* Espaciado superior */
+    text-align: center; /* Centrar texto */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra */
+    max-width: 1000px; /* Ancho máximo del contenedor */
+    margin-left: auto; /* Centrar horizontalmente */
+    margin-right: auto; /* Centrar horizontalmente */
+    margin-bottom: 20px;
+}
+
+#trailer-iframe {
+    border-radius: 10px; /* Bordes redondeados del iframe */
+    height: 600px; /* Altura del iframe */
+    width: 100%; /* Ancho del iframe */
+    transition: transform 0.3s; /* Efecto de transición */
+}
+
+#trailer-iframe:hover {
+    transform: scale(1.02); /* Efecto de aumento al pasar el mouse */
+}
+
+h2 {
+    color: white; /* Color del título del tráiler */
+    margin-bottom: 15px; /* Espaciado inferior */
+}
