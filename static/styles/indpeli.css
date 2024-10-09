@@ -19,6 +19,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     width: 100%; /* Asegura que ocupe todo el ancho */
+    background-color: rgba(0, 0, 0, 0.6); /* Añade un color negro con opacidad */
+    background-blend-mode: darken; /* Mezcla la imagen con el color oscuro */   
 }
 .movie-header {
     display: flex;
@@ -140,4 +142,5 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     width: 100%;
     box-sizing: border-box;
+    backdrop-filter: blur(2px);
 }
