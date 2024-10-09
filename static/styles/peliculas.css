@@ -49,40 +49,51 @@
 .movie-card {
     display: inline-block;
     width: 180px;
-    padding: 10px;
-    background-color: #fff;
+    padding: 0;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .movie-card img {
     width: 100%;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
-.movie-info {
-    margin-top: 10px;
-}
 
-.movie-info h4 {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
 
 #paginador {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 20px 0;
 }
 
+/* Estilo de cada botón de página */
 #paginador a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: blue;
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #f58723; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    transition: background-color 0.3s; /* Transición suave */
 }
 
+/* Estilo para el botón activo */
+#paginador a.active {
+    background-color: #f58723; /* Color más oscuro para el botón activo */
+}
+
+/* Efecto hover para los botones */
+#paginador a:hover {
+    background-color: #f58723; /* Color más oscuro en hover */
+}
+
+/* Estilo para los enlaces desactivados */
 #paginador span {
-    margin: 0 10px;
-    font-weight: bold;
+    padding: 10px 15px;
+    margin: 0 5px;
+    color: #ccc; /* Color para enlaces desactivados */
 }

@@ -95,25 +95,30 @@ h1 a:hover {
     background-color: #f1c49a; /* Fondo al pasar el mouse */
     color: #fff; /* Color de texto al pasar el mouse */
 }
+
+/*
 .menu-btn {
     background: none;
     border: none;
     cursor: pointer;
-  }
+}
   
-  .menu-icon {
-    width: 30px;  /* Ajusta el tamaño del icono aquí */
-    height: auto;
-  }
+
+.menu-icon {
+    width: 30px;  
+    height: auto;}
+
 @media (min-width:991px){
     .mobile {display: none;}
 }
-/* menu desplegable moviles */
+
+
+
 @media (max-width: 990px) {
     .desktop {display: none;}
     .submenu {
-        display: none; /* Ocultar submenús inicialmente */
-        padding-left: 20px; /* Indentación para submenús */
+        display: none; 
+        padding-left: 20px; 
       }
     nav.menu {
         display: none;
@@ -124,16 +129,16 @@ h1 a:hover {
         height: 100%;
         background-color: rgba(0, 0, 0, 0.9);
         z-index: 1000;
-        overflow-y: auto; /* Permite el desplazamiento vertical */
+        overflow-y: auto; 
       }
       
       nav.menu ul {
         list-style-type: none;
         padding: 20px;
         display: flex;
-        flex-direction: column; /* Hace que los elementos se apilen verticalmente */
-        justify-content: left; /* Alinea verticalmente los elementos */
-        height: 100%; /* Asegura que los enlaces llenen la altura del menú */
+        flex-direction: column; 
+        justify-content: left; 
+        height: 100%; 
       }
       
       nav.menu ul li {
@@ -152,6 +157,7 @@ h1 a:hover {
       }
 
 }
+*/
 
 /* Estilos del menú desplegable */
 .dropdown {
@@ -300,6 +306,7 @@ h2, small, a{
 .carrousel {
     width: 100%;
     margin: 0;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center; /* Asegura que el carrusel esté centrado */
@@ -327,6 +334,7 @@ h2, small, a{
     overflow: hidden;
     margin: auto;
     padding: 20px 0;
+    border-radius: 15px;
 }
 
 .carrusel-track {
@@ -341,7 +349,7 @@ h2, small, a{
     flex-direction: column; /* Asegura que las imágenes estén en una columna */
     align-items: center; /* Centra las imágenes horizontalmente */
     width: 210px;
-    padding: 0 10px;
+    padding: 0 ;
     box-sizing: border-box;
     height: 100%;
 }
@@ -365,15 +373,20 @@ h2, small, a{
 }
 
 .carrusel-arrow {
-    border-radius: 30px;
-    background-color: #ffffff;
+    border-radius: 50%;
+    background-color: transparent;
     position: absolute;
     z-index: 4;
-    width: 48px;
+    width: 48px; /* Tamaño del contenedor */
     height: 48px;
     text-align: center;
-    border: 0;
+    border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Asegura que el SVG esté centrado */
+    padding: 0;
+    outline: none;
 }
 
 .carrusel-arrow:focus {
@@ -381,17 +394,22 @@ h2, small, a{
 }
 
 .carrusel-arrow svg {
-    width: 12px;
-    height: 100%;
-    color: rgba(0, 0, 0, 0.7);
+    width: 80px;
+    height: 80px;
+    margin: 0;
+    padding:0;
+    color: rgb(0, 0, 0, 0.7) ;
+    stroke:none;
 }
 
 .carrusel-prev {
-    left: 0;
+    left: 10px;
+    
 }
 
 .carrusel-next {
     right: 0;
+
 }
 /*---------------------------------------------------------------------------Estrenos--------------------------------------------------------------------*/
 
@@ -443,8 +461,8 @@ h2, small, a{
 }
 
 .footer .social img {
-    width: 1.5em;
-    height: 1.5em;
+    width: 2.5em;
+    height: 2.5em;
     padding: 10px;
     background-color: white;
     border-radius: 50%;

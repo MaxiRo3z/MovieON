@@ -53,7 +53,7 @@ const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Se
     peliculasLink.addEventListener('mouseleave', () => {
         peliculasLink.classList.remove('active'); // Remueve la clase cuando el mouse sale
     });
-    function toggleMenu() {
+    /*function toggleMenu() {
         const menu = document.getElementById('menu');
         if (menu.style.display === 'block') {
           menu.style.display = 'none';
@@ -71,4 +71,4 @@ const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Se
         submenu.style.display = 'block'; // Mostrar si está oculto
       }
     }
-
+*/

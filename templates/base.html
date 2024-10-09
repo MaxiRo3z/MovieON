@@ -19,7 +19,51 @@
                 </a>
             </div>
         </div>
-        <div class="desktop">
+        <nav class="nav">
+            <ul class="nav_list">
+                <li>
+                    <a href="#">Películas</a>
+                    <ul class="dropdown">
+                        <li><a href="{{ url_for('main.peliculas_ruta') }}">Popular</a></li>
+                        <li><a href="#">En cartelera</a></li>
+                        <li><a href="#">Próximamente</a></li>
+                        <li><a href="#">Mejor puntuadas</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Series</a>
+                    <ul class="dropdown">
+                        <li><a href="#"">Popular</a></li>
+                        <li><a href="#">En cartelera</a></li>
+                        <li><a href="#">Próximamente</a></li>
+                        <li><a href="#">Mejor puntuadas</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Gente</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Actores Populares</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Más</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Fundadores</a></li>
+                        <li><a href="#">Soporte Ténico</a></li>
+                        <li><a href="#">Manual de usuario</a></li>
+                </li>
+            </ul>
+        </nav>
+        <div class="header_right">
+            <button class="icon_button"> 
+                <span>ES</span>
+            </button>
+            <a href="{{ url_for('auth.logear') }}" class="header_link nav_button">Iniciar sesión</a>
+            <a href="{{ url_for('auth.register') }}" class="header_link nav_button">Únete</a>
+            <button class="icon_button"> 
+                <img src="{{ url_for('static', filename='img/search.svg') }}" alt="Buscar">
+            </button>
+        <!--<div class="desktop">
             <nav class="nav">
                 <ul class="nav_list">
                     <li>
@@ -113,7 +157,7 @@
                         </ul>
                     </li>
                 </ul>
-            </nav>
+            </nav>-->
         </div>
     </header>
 

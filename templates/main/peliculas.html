@@ -39,12 +39,23 @@
             {% for pelicula in peliculas %}
                 <div class="movie-card">
                     <img src="{{ pelicula['url_poster'] }}" alt="{{ pelicula['titulo'] }}">
-                    <div class="movie-info">
-                        <h4>{{ pelicula['titulo'] }}</h4>
-                        <!-- Puedes agregar la fecha de estreno si la tienes disponible -->
-                    </div>
                 </div>
             {% endfor %}
+        </div>
+
+        <!-- Paginador -->
+        <div id="paginador">
+            {% if pagina_actual > 1 %}
+                <a href="{{ url_for('main.peliculas_ruta', pagina=pagina_actual - 1) }}">Anterior</a>
+            {% endif %}
+            
+            {% for i in range(1, total_paginas + 1) %}
+                <a href="{{ url_for('main.peliculas_ruta', pagina=i) }}">{{ i }}</a>
+            {% endfor %}
+            
+            {% if pagina_actual < total_paginas %}
+                <a href="{{ url_for('main.peliculas_ruta', pagina=pagina_actual + 1) }}">Siguiente</a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, request
+import math
 from services.api_service import *
 
 from . import main_bp
@@ -13,8 +14,26 @@ def index():
 
 @main_bp.route("/peliculas")
 def peliculas_ruta():
-    peliculas= pagina_peliculas()
-    return render_template('main/peliculas.html',peliculas=peliculas)
+    # Obtener todas las películas y el total
+    peliculas, total_peliculas = pagina_peliculas()  # Esto ahora debería funcionar correctamente
+
+    # Definir cuántas mostrar por página
+    peliculas_por_pagina = 20
+
+    # Calcular el total de páginas
+    total_paginas = math.ceil(total_peliculas / peliculas_por_pagina)
+
+    # Obtener la página actual desde la URL; si no existe, iniciar en la 1
+    pagina_actual = int(request.args.get('pagina', 1))
+
+    # Calcular el índice de inicio y fin para las películas de la página actual
+    inicio = (pagina_actual - 1) * peliculas_por_pagina
+    fin = inicio + peliculas_por_pagina
+
+    # Obtener las películas para la página actual
+    peliculas_actuales = peliculas[inicio:fin]
+
+    return render_template('main/peliculas.html', peliculas=peliculas_actuales, pagina_actual=pagina_actual, total_paginas=total_paginas)
 
 @main_bp.route('/movie/<int:movie_id>')
 def movie(movie_id):

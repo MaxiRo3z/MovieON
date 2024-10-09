@@ -47,37 +47,43 @@ def obtener_peliculas():
                     ids_ya_agregados.add(movie_id)
     return peliculas_con_posters
 
-def pagina_peliculas():
+def pagina_peliculas(max_paginas=5):
     endpoints = [
         f'{base_url_api}/movie/popular?api_key={api_key}&language=es-ES&page=1',
         f'{base_url_api}/movie/upcoming?api_key={api_key}&language=es-ES&page=1',
         f'{base_url_api}/movie/top_rated?api_key={api_key}&language=es-ES&page=1',
         f'{base_url_api}/movie/now_playing?api_key={api_key}&language=es-ES&page=1',
     ]
+    
     peliculas_con_posters = []
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
     ids_ya_agregados = set()
 
     for url in endpoints:
-        # Repetir por varias páginas
-        for page in range(1, 4):  # Ajusta el rango según sea necesario
-            response = requests.get(url.replace('page=1', f'page={page}'))  # Cambia la página en la URL
-            if response.status_code == 200:
-                data = response.json()
-                peliculas = data['results']
-                for pelicula in peliculas:
-                    ruta_poster = pelicula['poster_path']
-                    movie_id = pelicula['id']
-                    if ruta_poster and movie_id not in ids_ya_agregados:
-                        url_completa_poster = base_url_poster + ruta_poster
-                        peliculas_con_posters.append({
-                            'id': movie_id,
-                            'titulo': pelicula['title'],
-                            'url_poster': url_completa_poster
-                        })
-                        ids_ya_agregados.add(movie_id)
+        # Obtener el número total de páginas (puedes usar una llamada a la API para la primera página)
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            total_paginas = min(data['total_pages'], max_paginas)  # Limitar a max_paginas
+            for page in range(1, total_paginas + 1):  # Iterar por las páginas limitadas
+                response = requests.get(url.replace('page=1', f'page={page}'))
+                if response.status_code == 200:
+                    data = response.json()
+                    peliculas = data['results']
+                    for pelicula in peliculas:
+                        ruta_poster = pelicula['poster_path']
+                        movie_id = pelicula['id']
+                        if ruta_poster and movie_id not in ids_ya_agregados:
+                            url_completa_poster = base_url_poster + ruta_poster
+                            peliculas_con_posters.append({
+                                'id': movie_id,
+                                'titulo': pelicula['title'],
+                                'url_poster': url_completa_poster
+                            })
+                            ids_ya_agregados.add(movie_id)
 
-    return peliculas_con_posters
+    total_peliculas = len(peliculas_con_posters)  # Contamos cuántas películas hemos agregado
+    return peliculas_con_posters, total_peliculas
 
 def obtener_series_proximas():
     url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=es-ES&page=1'
