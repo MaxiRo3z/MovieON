@@ -34,29 +34,25 @@
 
     <!-- Grid de películas -->
     <div class="movies-grid">
-        <h2>Películas populares</h2>
+        <h2>Películas {{ categoria.replace('_', ' ') | capitalize }}</h2>
         <div class="grid">
             {% for pelicula in peliculas %}
                 <div class="movie-card">
-                    <img src="{{ pelicula['url_poster'] }}" alt="{{ pelicula['titulo'] }}">
+                    <img src="{{ pelicula['poster_url'] }}" alt="{{ pelicula['title'] }}" loading="lazy">
                 </div>
             {% endfor %}
-        </div>
-
-        <!-- Paginador -->
-        <div id="paginador">
-            {% if pagina_actual > 1 %}
-                <a href="{{ url_for('main.peliculas_ruta', pagina=pagina_actual - 1) }}">Anterior</a>
-            {% endif %}
-            
-            {% for i in range(1, total_paginas + 1) %}
-                <a href="{{ url_for('main.peliculas_ruta', pagina=i) }}">{{ i }}</a>
-            {% endfor %}
-            
-            {% if pagina_actual < total_paginas %}
-                <a href="{{ url_for('main.peliculas_ruta', pagina=pagina_actual + 1) }}">Siguiente</a>
-            {% endif %}
+            <!-- Paginación -->
+            <div class="pagination">
+                {% if page > 1 %}
+                    <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page-1) }}">Anterior</a>
+                {% endif %}
+                
+                <span>Página {{ page }} de {{ total_pages }}</span>
+                
+                {% if page < total_pages %}
+                    <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page+1) }}">Siguiente</a>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

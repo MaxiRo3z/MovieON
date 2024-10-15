@@ -78,3 +78,6 @@ function mostrarTrailer() {
     trailerIframe.src = "{{ detalles_pelicula.trailer_url }}"; // Inserta la URL del tráiler
     trailerContainer.style.display = "block"; // Muestra el contenedor del tráiler
 }
+
+
+

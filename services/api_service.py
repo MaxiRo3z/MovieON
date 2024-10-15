@@ -3,6 +3,13 @@ import requests
 api_key = 'cc0bbbd7774ce2853272ceeb3db7db56'
 base_url_api = 'https://api.themoviedb.org/3'
 
+
+CATEGORIAS = {
+    'populares': 'popular',
+    'proximas': 'upcoming',
+    'en_cartelera': 'now_playing',
+    'mejor_puntuadas': 'top_rated'
+}
 def obtener_peliculas_proximas():
     url = f'{base_url_api}/movie/upcoming?api_key={api_key}&language=es-ES&page=1'
     response = requests.get(url)
@@ -47,43 +54,28 @@ def obtener_peliculas():
                     ids_ya_agregados.add(movie_id)
     return peliculas_con_posters
 
-def pagina_peliculas(max_paginas=5):
-    endpoints = [
-        f'{base_url_api}/movie/popular?api_key={api_key}&language=es-ES&page=1',
-        f'{base_url_api}/movie/upcoming?api_key={api_key}&language=es-ES&page=1',
-        f'{base_url_api}/movie/top_rated?api_key={api_key}&language=es-ES&page=1',
-        f'{base_url_api}/movie/now_playing?api_key={api_key}&language=es-ES&page=1',
-    ]
-    
-    peliculas_con_posters = []
-    base_url_poster = 'https://image.tmdb.org/t/p/w500'
-    ids_ya_agregados = set()
 
-    for url in endpoints:
-        # Obtener el número total de páginas (puedes usar una llamada a la API para la primera página)
+
+def pagina_peliculas(categoria, page=1):
+    if categoria in CATEGORIAS:
+        endpoint = CATEGORIAS[categoria]
+        url = f'{base_url_api}/movie/{endpoint}?api_key={api_key}&language=es-ES&page={page}'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            total_paginas = min(data['total_pages'], max_paginas)  # Limitar a max_paginas
-            for page in range(1, total_paginas + 1):  # Iterar por las páginas limitadas
-                response = requests.get(url.replace('page=1', f'page={page}'))
-                if response.status_code == 200:
-                    data = response.json()
-                    peliculas = data['results']
-                    for pelicula in peliculas:
-                        ruta_poster = pelicula['poster_path']
-                        movie_id = pelicula['id']
-                        if ruta_poster and movie_id not in ids_ya_agregados:
-                            url_completa_poster = base_url_poster + ruta_poster
-                            peliculas_con_posters.append({
-                                'id': movie_id,
-                                'titulo': pelicula['title'],
-                                'url_poster': url_completa_poster
-                            })
-                            ids_ya_agregados.add(movie_id)
-
-    total_peliculas = len(peliculas_con_posters)  # Contamos cuántas películas hemos agregado
-    return peliculas_con_posters, total_peliculas
+            peliculas = data['results']
+            base_url = 'https://image.tmdb.org/t/p/w500'
+            peliculas_con_posters = [
+                {
+                    'id': pelicula['id'],
+                    'title': pelicula['title'],
+                    'poster_url': base_url + pelicula['poster_path']
+                }
+                for pelicula in peliculas if pelicula['poster_path']
+            ]
+            total_pages = data['total_pages']  # Obtener el número total de páginas
+            return peliculas_con_posters, total_pages
+    return [], 1
 
 def obtener_series_proximas():
     url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=es-ES&page=1'
