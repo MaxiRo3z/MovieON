@@ -125,7 +125,7 @@ def obtener_series_proximas():
     return []
 
 def obtener_series_populares():
-    url = f'{base_url_api}/tv/popular?api_key={api_key}&language=es-ES&page=1'
+    url = f'{base_url_api}/tv/top_rated?api_key={api_key}&language=es-ES&page=1'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
