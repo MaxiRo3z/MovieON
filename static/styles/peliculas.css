@@ -78,19 +78,35 @@
 }
 
 /* Estilo de cada botón de página */
-.pagination a {
-    color: black;
-    padding: 8px 16px;
-    text-decoration: none;
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    margin-top: 20px; /* Espacio entre el grid de películas y el paginador */
 }
 
-.pagination a.active {
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
+#paginador {
+    display: flex; /* Usar flexbox para el paginador */
 }
 
-.pagination a:hover:not(.active) {
-    background-color: #ddd;
-    border-radius: 5px;
+#paginador a, #paginador span {
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none; /* Sin subrayado */
+    color: #f58723; /* Color de los enlaces */
+    border: 1px solid #f58723; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+#paginador a.active {
+    background-color: #f58723; /* Color del botón activo */
+    color: white; /* Color del texto activo */
+}
+
+#paginador a:hover {
+    background-color: #f58723; /* Color en hover */
+    color: white; /* Color del texto en hover */
+}
+
+#paginador span {
+    color: #ccc; /* Color para enlaces desactivados */
 }

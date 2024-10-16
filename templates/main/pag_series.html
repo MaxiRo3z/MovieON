@@ -16,8 +16,8 @@
             <div class="filter">
                 <h4>Muéstrame</h4>
                 <label><input type="radio" name="filter" checked> Todo</label>
-                <label><input type="radio" name="filter"> Películas que no he visto</label>
-                <label><input type="radio" name="filter"> Películas que he visto</label>
+                <label><input type="radio" name="filter"> Series que no he visto</label>  <!-- Cambiado a "Series" -->
+                <label><input type="radio" name="filter"> Series que he visto</label>      <!-- Cambiado a "Series" -->
             </div>
 
             <div class="filter">
@@ -32,13 +32,13 @@
         </div>
     </div>
 
-    <!-- Grid de películas -->
+    <!-- Grid de series -->
     <div class="movies-grid">
-        <h2>Películas {{ categoria.replace('_', ' ') | capitalize }}</h2>
+        <h2>Series {{ categoria.replace('_', ' ') | capitalize }}</h2>
         <div class="grid">
-            {% for pelicula in peliculas %}
+            {% for serie in series %}
                 <div class="movie-card">
-                    <img src="{{ pelicula['poster_url'] }}" alt="{{ pelicula['title'] }}" loading="lazy">
+                    <img src="{{ serie['poster_url'] }}" alt="{{ serie['name'] }}" loading="lazy">  <!-- Cambiado a 'name' -->
                 </div>
             {% endfor %}
         </div>
@@ -46,28 +46,28 @@
         <div id="paginador" class="pagination">
                 <!-- Botón para ir a la primera página, se oculta si ya estás en la primera página -->
         {% if page > 1 %}
-            <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=1) }}">Primera</a>
+            <a href="{{ url_for('main.series_ruta', categoria=categoria, page=1) }}">Primera</a>
         {% endif %}
 
         <!-- Botón para ir a la página anterior, se oculta si ya estás en la primera página -->
         {% if page > 1 %}
-            <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page-1) }}">Anterior</a>
+            <a href="{{ url_for('main.series_ruta', categoria=categoria, page=page-1) }}">Anterior</a>
         {% endif %}
 
         <!-- Botones de paginación dinámicos -->
         {% for p in range(start_page, end_page + 1) %}
-            <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=p) }}" 
+            <a href="{{ url_for('main.series_ruta', categoria=categoria, page=p) }}" 
             class="{% if p == page %}active{% endif %}">{{ p }}</a>
         {% endfor %}
 
         <!-- Botón para ir a la siguiente página, se oculta si ya estás en la última página -->
         {% if page < total_pages %}
-            <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page+1) }}">Siguiente</a>
+            <a href="{{ url_for('main.series_ruta', categoria=categoria, page=page+1) }}">Siguiente</a>
         {% endif %}
 
         <!-- Botón para ir a la última página, se oculta si ya estás en la última página -->
         {% if page < total_pages %}
-            <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=total_pages) }}">Última</a>
+            <a href="{{ url_for('main.series_ruta', categoria=categoria, page=total_pages) }}">Última</a>
         {% endif %}
         </div>
     </div>

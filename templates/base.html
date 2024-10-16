@@ -33,10 +33,10 @@
                 <li>
                     <a href="#">Series</a>
                     <ul class="dropdown">
-                        <li><a href="#"">Popular</a></li>
-                        <li><a href="#">En cartelera</a></li>
-                        <li><a href="#">Próximamente</a></li>
-                        <li><a href="#">Mejor puntuadas</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Populares</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='se_emiten_hoy', page=1) }}">Se emiten hoy</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='en_television', page=1) }}">En televisión</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='mejor_puntuadas', page=1) }}">Mejor puntuadas</a></li>
                     </ul>
                 </li>
                 <li>

@@ -15,7 +15,37 @@ def index():
 @main_bp.route("/peliculas/<categoria>/<int:page>")
 def peliculas_ruta(categoria, page=1):
     peliculas, total_pages = pagina_peliculas(categoria, page)
-    return render_template('main/peliculas.html', peliculas=peliculas, categoria=categoria, page=page, total_pages=total_pages)
+
+    # Calcular las páginas a mostrar
+    if page <= 5:
+        start_page = 1
+        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
+    elif page + 4 > total_pages:
+        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
+        end_page = total_pages
+    else:
+        start_page = page - 4  # Mostrar 4 páginas antes
+        end_page = page + 5  # Mostrar 5 páginas después
+
+    return render_template('main/peliculas.html', peliculas=peliculas, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+
+
+@main_bp.route("/series/<categoria>/<int:page>")
+def series_ruta(categoria, page=1):
+    series, total_pages = pagina_series(categoria, page)
+
+    # Calcular las páginas a mostrar
+    if page <= 5:
+        start_page = 1
+        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
+    elif page + 4 > total_pages:
+        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
+        end_page = total_pages
+    else:
+        start_page = page - 4  # Mostrar 4 páginas antes
+        end_page = page + 5  # Mostrar 5 páginas después
+
+    return render_template('main/pag_series.html', series=series, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
 
 @main_bp.route('/movie/<int:movie_id>')
 def movie(movie_id):

@@ -10,6 +10,14 @@ CATEGORIAS = {
     'en_cartelera': 'now_playing',
     'mejor_puntuadas': 'top_rated'
 }
+
+CATEGORIAS_SERIES= {
+    'populares': 'popular',
+    'se_emiten_hoy': 'airing_today',
+    'en_television': 'on_the_air',
+    'mejor_puntuadas': 'top_rated'
+}
+
 def obtener_peliculas_proximas():
     url = f'{base_url_api}/movie/upcoming?api_key={api_key}&language=es-ES&page=1'
     response = requests.get(url)
@@ -73,8 +81,29 @@ def pagina_peliculas(categoria, page=1):
                 }
                 for pelicula in peliculas if pelicula['poster_path']
             ]
-            total_pages = data['total_pages']  # Obtener el número total de páginas
+            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
             return peliculas_con_posters, total_pages
+    return [], 1
+
+def pagina_series(categoria, page=1):
+    if categoria in CATEGORIAS_SERIES:
+        endpoint = CATEGORIAS_SERIES[categoria]
+        url = f'{base_url_api}/tv/{endpoint}?api_key={api_key}&language=es-ES&page={page}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            series = data['results']
+            base_url = 'https://image.tmdb.org/t/p/w500'
+            series_con_posters = [
+                {
+                    'id': serie['id'],
+                    'name': serie['name'],  # Cambia 'title' por 'name'
+                    'poster_url': base_url + serie['poster_path']
+                }
+                for serie in series if serie.get('poster_path')  # Usa get para evitar errores
+            ]
+            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
+            return series_con_posters, total_pages
     return [], 1
 
 def obtener_series_proximas():
