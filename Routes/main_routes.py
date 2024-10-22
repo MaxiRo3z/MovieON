@@ -62,3 +62,21 @@ def serie(serie_id):
         return render_template("main/series.html", detalles_serie=detalles_series)
     else:
         return "Serie no encontrada", 404
+    
+@main_bp.route("/actores_populares/<int:page>")
+def actores_populares(page=1):
+    """Ruta que muestra los actores populares con paginación."""
+    actores, total_pages = pagina_actores(page)
+
+    # Calcular las páginas a mostrar en el paginador
+    if page <= 5:
+        start_page = 1
+        end_page = min(10, total_pages)
+    elif page + 4 > total_pages:
+        start_page = max(1, total_pages - 9)
+        end_page = total_pages
+    else:
+        start_page = page - 4
+        end_page = page + 5
+
+    return render_template('main/actores_populares.html', actores=actores, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)

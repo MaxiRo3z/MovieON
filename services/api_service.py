@@ -224,3 +224,28 @@ def obtener_detalles_series(serie_id):
             'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None  # Imagen de fondo
         }
     return detalles_serie
+
+def pagina_actores(page=1):
+    """Obtiene los actores populares de la API de TMDB."""
+    url = f'{base_url_api}/person/popular?api_key={api_key}&language=es-ES&page={page}'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        actores = data['results']
+        base_url = 'https://image.tmdb.org/t/p/w500'
+        
+        actores_con_fotos = [
+            {
+                'id': actor['id'],
+                'name': actor['name'],
+                'profile_url': base_url + actor['profile_path'] if actor.get('profile_path') else None,
+                'known_for': ', '.join([p['title'] if 'title' in p else p['name'] for p in actor['known_for']])
+            }
+            for actor in actores if actor.get('profile_path')  # Solo actores con imagen
+        ]
+        
+        total_pages = min(data['total_pages'], 500)  # Limitar a 500 para evitar problemas de paginación
+        return actores_con_fotos, total_pages
+    
+    return [], 1
