@@ -1,0 +1,87 @@
+main{
+    background-image: url(../img/fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.background {
+    background-color: rgba(0, 0, 0, 0.301);
+    backdrop-filter: blur(2px);
+    width: 100%;
+    height: 100%;
+}
+.image-container_container{
+    display: flex;
+    justify-content: center; /* Centrar el grid horizontalmente */
+    align-items: center; /* Centrar el grid verticalmente */
+    width: 100%;
+    height: 100%;
+    padding: 0%;
+    padding-top: 5%;
+
+}
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crear dos columnas de igual tamaño */
+    gap: 10%; /* Espacio entre las imágenes */
+    max-width: 90%;
+    justify-content: center;
+    padding-bottom: 5%;
+}
+
+.image-container div {
+    display: flex;
+    flex-direction: column; /* Alinear imagen y texto en columna */
+    justify-content: space-evenly; /* Centrar verticalmente el contenido dentro del div */
+    align-items: center; /* Centrar horizontalmente el contenido */
+    text-align: center; /* Centrar el texto dentro del div */
+    background-color: #e88930 ;
+    width: 90%;
+    height: 100%;
+    border-radius: 5%;
+}
+
+.image-container div img {
+    max-width: 95%; /* Limitar el tamaño máximo de la imagen al 50% del ancho del div */
+    height: auto; /* Mantener las proporciones de la imagen */
+    padding: 5%;
+}
+
+.image-container div h1 {
+    text-align: center;
+    color: white;
+    font-family: "Roboto", sans-serif;
+}
+
+.hola {
+    text-align: center;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    background-color: rgba(0, 0, 0, .301);
+    backdrop-filter: blur(2px);
+    margin-top: 0%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+
+}
+
+.info-fundadores{
+    padding: 5%;
+}
+
+.info-fundadores h2 {
+    text-align: center;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    text-shadow: 
+    -0.2px -0.2px 0 black,  /* Sombra hacia la esquina superior izquierda */
+    0.2px -0.2px 0 black,   /* Sombra hacia la esquina superior derecha */
+    -0.2px 0.2px 0 black,   /* Sombra hacia la esquina inferior izquierda */
+    0.2px 0.2px 0 black;    /* Sombra hacia la esquina inferior derecha */
+}
+
+.info-fundadores img {
+    width: 20%;
+}

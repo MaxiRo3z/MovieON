@@ -1,58 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-</head>
-<body>
-    <div class="header">
-        <h1><a href="../">MovieON</a></h1>
-        <div class="container_header">
-            <form action="GET">
-                <input type="text" value="Buscar..." class="busqueda">
-                <button type="submit">Enviar</button>
-            </form>
-            <nav class="nav">
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                    <li><a href="{{ url_for('auth.logear') }}">Iniciar Sesión</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <div class="register-container">
+{% extends 'base.html' %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/registro.css') }}">
+{% endblock %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="form-container">
         <h1>Registrarse</h1>
-        <form action="{{ url_for('auth.register') }}" method="post">
-            <label for="username">Nombre de Usuario:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Registrar</button>
+        <form action="{{ url_for('auth.register') }}" method="post" class="form-main">
+            <div class="name">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required class="input-campo">
+            </div>
+            <div class="user">
+                <input type="text" id="username" name="username" placeholder="Nombre de usuario" required class="input-campo">
+            </div>
+            <div class="email">
+                <input type="email" id="email" name="email" placeholder="Correo electronico" required class="input-campo">
+            </div>
+            <div class="password">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required class="input-campo">
+            </div>
+            <div>
+                <input type="checkbox" class="terminos"> <label for="checkbox">Estoy de acuerdo con los <a href="#" class="condiciones">terminos y condiciones</a></label>
+            </div>
+            <button type="submit" class="btn">Registrar</button>
         </form>
     </div>
-    <footer class='footer'>
-        <div class="footer_container">
-            <div class="social">
-                <a href="#"><img src="{{ url_for('static', filename='img/facebookblacksocialbuttoncircle_79771.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/instagram_f_icon-icons.com_65485.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/twitter_black_logo_icon_147062.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/google_icon-icons.com_65444.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/youtube_black_logo_icon_147044.svg') }}" alt=""></a>
-            </div>
-            <div class="footer_nav">
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                    <li><a href="#">Sobre Nosotros</a></li>
-                    <li><a href="#">Contáctanos</a></li>
-                    <li><a href="#">Nuestro Equipo</a></li>
-                </ul>
-            </div>
-            <div class="copy">
-                <p>Copyright.&copy;2024, design by <span class="designer">Maxi & Sire's Company</span></p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+</div>
+{% endblock %}  

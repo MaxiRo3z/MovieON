@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/fundadores.css') }}">
+{% endblock %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block content %}
+<main>
+
+    <div class="background">
+        <h1 class="hola">Hola! Somos los creadores de MovieON</h1>
+        <div class="image-container_container">
+            <div class="image-container">
+                <div>
+                    <h1>Maxi Romero</h1>
+                    <img src="/static/img/Maxi.png" alt="Imagen 1">
+                    <div class="info-fundadores">
+                        <h2>Soy Maxi, sali del closet hace 2 años y desde entonces disfruto de mi sexualidad al 100% siendo una gatita kawaii y pasiva</h2>
+                        <img src="/static/img/email.png">
+                        <h2> maxiromeroez@outblock.com</h2>
+                    </div>
+                </div>
+                <div>
+                    <h1>Mauricio Bonpland</h1>
+                    <img src="/static/img/Mauricio.JPG" alt="Imagen 2">
+                    <div class="info-fundadores">
+                        <h2>Soy Mauricio, apoyo incondicionalmente a Maxi aunque me de asco</h2>
+                        <img src="/static/img/email.png">
+                        <h2> mauriciobonpland@hotmail.com</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}    
+
+    
+   

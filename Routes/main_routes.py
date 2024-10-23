@@ -80,3 +80,6 @@ def actores_populares(page=1):
         end_page = page + 5
 
     return render_template('main/actores_populares.html', actores=actores, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+@main_bp.route('fundadores')
+def fundadores():
+    return render_template("main/fundadores.html")
