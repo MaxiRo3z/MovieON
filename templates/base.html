@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     {% block custom_styles %}{% endblock %}
 </head>
 <body>
@@ -51,6 +52,7 @@
                         <li><a href="">Fundadores</a></li>
                         <li><a href="#">Soporte Ténico</a></li>
                         <li><a href="#">Manual de usuario</a></li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -71,27 +73,46 @@
     </main>
 
     <footer class="footer">
-        <div class="footer_container">
-            <div class="social">
-                <a href="#"><img src="{{ url_for('static', filename='img/facebookblacksocialbuttoncircle_79771.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/instagram_f_icon-icons.com_65485.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/twitter_black_logo_icon_147062.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/google_icon-icons.com_65444.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ url_for('static', filename='img/youtube_black_logo_icon_147044.svg') }}" alt=""></a>
-            </div>
-            <div class="footer_nav">
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                    <li><a href="#">Sobre Nosotros</a></li>
-                    <li><a href="#">Contáctanos</a></li>
-                    <li><a href="#">Nuestro Equipo</a></li>
-                </ul>
-            </div>
-            <div class="copy">
-                <p>Copyright.&copy;2024, design by <span class="designer">Maxi & Sire's Company</span></p>
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <h4>Peliculas</h4>
+                    <ul>
+                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Populares</a></li>
+                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='en_cartelera', page=1) }}">En cartelera</a></li>
+                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='proximas', page=1) }}">Próximamente</a></li>
+                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='mejor_puntuadas', page=1) }}">Mejor puntuadas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Series</h4>
+                    <ul>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Populares</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='se_emiten_hoy', page=1) }}">Se emiten hoy</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='en_television', page=1) }}">En televisión</a></li>
+                        <li><a href="{{ url_for('main.series_ruta', categoria='mejor_puntuadas', page=1) }}">Mejor puntuadas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Compañia</h4>
+                    <ul>
+                        <li><a href="">Fundadores</a></li>
+                        <li><a href="#">Soporte Ténico</a></li>
+                        <li><a href="#">Manual de usuario</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Siguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+   </footer>
     <script src="{{ url_for('static', filename='script/script.js') }}"></script>
 </body>
 </html>

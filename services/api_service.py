@@ -227,7 +227,7 @@ def obtener_detalles_series(serie_id):
 
 def pagina_actores(page=1):
     """Obtiene los actores populares de la API de TMDB."""
-    url = f'{base_url_api}/person/popular?api_key={api_key}&language=es-ES&page={page}'
+    url = f'{base_url_api}/person/popular?api_key={api_key}&language=es&page={page}'
     response = requests.get(url)
     
     if response.status_code == 200:
@@ -240,7 +240,6 @@ def pagina_actores(page=1):
                 'id': actor['id'],
                 'name': actor['name'],
                 'profile_url': base_url + actor['profile_path'] if actor.get('profile_path') else None,
-                'known_for': ', '.join([p['title'] if 'title' in p else p['name'] for p in actor['known_for']])
             }
             for actor in actores if actor.get('profile_path')  # Solo actores con imagen
         ]
