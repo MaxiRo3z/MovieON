@@ -56,12 +56,14 @@
     outline: none;
     padding: 20px;
     border-radius: 4px;
+    transition: transform 0.2s;
 
 }
 .input-campo:hover {
     border-color: #ffe100;
-    border-width: 2px;
+    border-width: 1px;
     border-style: solid;
+    transform: scale(1.05);
 }
 
 .btn {
@@ -70,12 +72,13 @@
     outline: none;
     padding: 15px;
     border-radius: 4px;
-    font-family: "Roboto", sans-serif;
+    transition: transform 0.2s;
 }
 
 .btn:hover {
     background-color: #ffe100;
     color: #ffffff;
+    transform: scale(1.05);
 }
 
 .condiciones {
@@ -90,4 +93,9 @@
 
 h1 {
     padding-top: 20px;
+    font-size: 40px;
+}
+
+h1:hover {
+    cursor: default;
 }

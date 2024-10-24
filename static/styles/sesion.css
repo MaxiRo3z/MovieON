@@ -49,12 +49,12 @@
     outline: none;
     padding: 20px;
     border-radius: 4px;
+    transition: transform 0.2s;
+    font-size: 15px;
 
 }
 .input-campo:hover {
-    border-color: #ffe100;
-    border-width: 2px;
-    border-style: solid;
+    transform: scale(1.05);
 }
 html {
     height: 100%;
@@ -72,14 +72,26 @@ html {
     outline: none;
     padding: 15px;
     border-radius: 4px;
+    transition: transform 0.2s;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 4px 10px 20px 0 #0000002e;
 }
 
 .btn:hover {
-    background-color: #ffe100;
-    color: #ffffff;
+    transform: scale(1.05);
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 4px 10px 20px 0 #0000002e;
 }
 
 .data{
     padding-bottom: 15px;
+}
+h1 {
+    font-size: 40px;
+}
+h1:hover {
+    cursor: default;
 }
 
