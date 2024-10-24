@@ -209,10 +209,95 @@ h1 a:hover {
     text-decoration: none;
 }
 
+.search_form {
+    display: flex;
+    align-items: center;
+}
 
+.search_input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
 
+.search_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
+.peliculas-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
 
+.pelicula-card {
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+}
+
+.search_form.active {
+    display: block;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 20px;
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.search-input {
+    padding: 10px 15px;
+    border: 2px solid #007bff;
+    border-radius: 50px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.search-input:focus {
+    border-color: #0056b3;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.search-icon {
+    width: 18px;
+    height: 18px;
+    filter: invert(100%);
+}
+
+/* Efecto hover en el input */
+.search-input:hover {
+    box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.2);
+}
 
 
 
@@ -470,3 +555,14 @@ ul{
 /*-----------------------------------Registro/Inicio de sesion----------------------------------------------------*/
 
 
+/* Estilo adicional para el botón en dispositivos móviles */
+@media (max-width: 768px) {
+    .search-input {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .search-button {
+        padding: 8px;
+    }
+}

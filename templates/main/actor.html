@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/actor.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Actores populares</h1>
+<div class="actores-container">
+    {% for actor in actores %}
+    <div class="actor-card">
+        <img src="{{ actor.profile_url }}" alt="{{ actor.name }}">
+        <div class="actor-info">
+            <h2>{{ actor.name }}</h2>
+            <p>Conocido por: {{ actor.known_for | join(', ') }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Paginador -->
+<div class="paginador">
+    {% if page > 1 %}
+    <a href="{{ url_for('main.actores_populares', page=page-1) }}">&laquo; Anterior</a>
+    {% else %}
+    <span>&laquo; Anterior</span>
+    {% endif %}
+
+    {% for p in range(start_page, end_page + 1) %}
+    {% if p == page %}
+    <span>{{ p }}</span>
+    {% else %}
+    <a href="{{ url_for('main.actores_populares', page=p) }}">{{ p }}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+    <a href="{{ url_for('main.actores_populares', page=page+1) }}">Siguiente &raquo;</a>
+    {% else %}
+    <span>Siguiente &raquo;</span>
+    {% endif %}
+</div>
+{% endblock %}

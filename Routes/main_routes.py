@@ -83,3 +83,24 @@ def actores_populares(page=1):
 @main_bp.route('fundadores')
 def fundadores():
     return render_template("main/fundadores.html")
+
+
+@main_bp.route('/buscar_pelicula')
+def buscar_pelicula():
+    query = request.args.get('query')  # Obtener el término de búsqueda desde el formulario
+    page = request.args.get('page', 1, type=int)  # Obtener el número de página, por defecto es 1
+
+    # Llamada a la API de TMDB para buscar películas
+    url = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={query}&language=es-ES&page={page}'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        peliculas = data['results']
+        total_pages = data['total_pages']
+    else:
+        peliculas = []
+        total_pages = 1
+
+    # Renderizar la plantilla de resultados de búsqueda
+    return render_template('main/layout.html', peliculas=peliculas, query=query, page=page, total_pages=total_pages)

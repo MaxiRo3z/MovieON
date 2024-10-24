@@ -1,0 +1,76 @@
+
+/* Estilos para la página de resultados de búsqueda */
+.search-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.movie-card {
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.movie-title {
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
+
+.movie-release-date {
+    font-size: 14px;
+    color: #666;
+}
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 30px;
+    color: #888;
+}
+
+/* Estilos de paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.page-link:hover {
+    background-color: #0056b3;
+}
+
+.page-item.active .page-link {
+    background-color: #0056b3;
+    pointer-events: none;
+}

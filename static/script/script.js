@@ -79,5 +79,7 @@ function mostrarTrailer() {
     trailerContainer.style.display = "block"; // Muestra el contenedor del tráiler
 }
 
-
+document.querySelector('.icon_button img').addEventListener('click', function() {
+    document.querySelector('.search_form').classList.toggle('active');
+});
 
