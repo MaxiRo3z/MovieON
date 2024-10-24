@@ -73,12 +73,16 @@
     padding: 15px;
     border-radius: 4px;
     transition: transform 0.2s;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 4px 10px 20px 0 #0000002e;
 }
 
 .btn:hover {
-    background-color: #ffe100;
-    color: #ffffff;
     transform: scale(1.05);
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 4px 10px 20px 0 #0000002e;
 }
 
 .condiciones {
