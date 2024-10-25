@@ -31,7 +31,7 @@ h1 a:hover {
 
 /*---------------------------------------------------------------------------Header--------------------------------------------------------------------*/
 .header {
-    background-color: #000000; /* Fondo negro */
+    background-color: #24262b; /* Fondo negro */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -249,55 +249,62 @@ h1 a:hover {
     align-items: center;
     justify-content: flex-end;
     margin-right: 20px;
-    position: relative;
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
+    border-radius: 30px; /* Border radius para todo el formulario */
+    overflow: hidden; /* Para ocultar esquinas del input y botón */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra del formulario */
 }
 
 .search-input {
-    padding: 10px 15px;
-    border: 2px solid #007bff;
-    border-radius: 50px;
+    padding: 12px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
     font-size: 16px;
     width: 100%;
-    outline: none;
+    outline: none; /* Sin contorno por defecto */
     transition: all 0.3s ease;
     color: #333;
-    background-color: #f9f9f9;
+    background-color: #f0f4ff; /* Color de fondo más claro */
+}
+
+.search-input::placeholder {
+    color: #aaa; /* Color del placeholder */
 }
 
 .search-input:focus {
-    border-color: #0056b3;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+    background-color: white; /* Color de fondo al enfocarse */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Sombra al enfocar */
 }
 
 .search-button {
-    position: absolute;
-    right: 10px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background-color: #007bff; /* Color del botón */
+    border: none; /* Sin borde */
+    border-radius: 50%; /* Botón circular */
+    padding: 12px; /* Espaciado interno */
+    cursor: pointer; /* Cursor tipo puntero */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones */
+    display: flex; /* Para centrar el icono */
+    align-items: center;
+    justify-content: center;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
-    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+    background-color: #0056b3; /* Color al pasar el ratón */
+    transform: scale(1.05); /* Escalado ligero al pasar el ratón */
 }
 
 .search-icon {
-    width: 18px;
-    height: 18px;
-    filter: invert(100%);
+    width: 20px; /* Tamaño del icono */
+    height: 20px; /* Tamaño del icono */
+    filter: invert(100%); /* Inversión de color */
 }
 
 /* Efecto hover en el input */
 .search-input:hover {
-    box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2); /* Sombra al pasar el ratón */
 }
+
+
 
 
 
@@ -479,7 +486,7 @@ ul{
 }
 .footer-col{
    width: 25%;
-   padding: 0 15px;
+   padding: 0 35px;
 }
 .footer-col h4{
 	font-size: 18px;

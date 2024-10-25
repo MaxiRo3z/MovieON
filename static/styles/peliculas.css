@@ -69,7 +69,10 @@
     padding: 0; /* Asegurarse de que no haya padding */
 }
 
-
+.movies-grid h2{
+    color: #fff;
+    padding-bottom: 10px;
+}
 #paginador {
     display: flex;
     justify-content: center;

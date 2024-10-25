@@ -65,10 +65,7 @@
             
             <!-- Formulario de búsqueda -->
             <form action="{{ url_for('main.buscar_pelicula') }}" method="GET" class="search-form">
-                <input type="text" name="query" class="search-input" placeholder="Buscar películas..." required>
-                <button type="submit" class="search-button">
-                    <img src="{{ url_for('static', filename='img/search.svg') }}" alt="Buscar" class="search-icon">
-                </button>
+                <input type="text" name="query" id="search-input" class="search-input" placeholder="Buscar películas..." required autocomplete="off">
             </form>
         </div>
     </header>

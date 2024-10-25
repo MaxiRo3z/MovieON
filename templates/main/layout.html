@@ -13,7 +13,7 @@
     {% if peliculas %}
         {% for pelicula in peliculas %}
             <div class="movie-card">
-                <img class="movie-poster" src="https://image.tmdb.org/t/p/w500/{{ pelicula.poster_path }}" alt="{{ pelicula.title }}">
+                <img class="movie-poster" src="{{ pelicula.poster_url if pelicula.poster_url else url_for('static', filename='img/default_image.png') }}" alt="{{ pelicula.title }}">
                 <h3 class="movie-title">{{ pelicula.title }}</h3>
                 <p class="movie-release-date">{{ pelicula.release_date }}</p>
             </div>

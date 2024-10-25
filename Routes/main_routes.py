@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, url_for
 import math
 from services.api_service import *
 from . import main_bp
@@ -98,6 +98,16 @@ def buscar_pelicula():
         data = response.json()
         peliculas = data['results']
         total_pages = data['total_pages']
+        
+        base_url = 'https://image.tmdb.org/t/p/w500'
+        imagen_por_defecto = url_for('static', filename='img/default_image.png', _external=True)  # Imagen por defecto
+
+        # Actualizar el poster_url de cada película
+        for pelicula in peliculas:
+            if pelicula.get('poster_path'):  # Si existe poster_path
+                pelicula['poster_url'] = base_url + pelicula['poster_path']
+            else:  # Si no hay poster, usar la imagen por defecto
+                pelicula['poster_url'] = imagen_por_defecto
     else:
         peliculas = []
         total_pages = 1
