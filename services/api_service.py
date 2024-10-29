@@ -19,7 +19,7 @@ CATEGORIAS_SERIES= {
 }
 
 def obtener_peliculas_proximas():
-    url = f'{base_url_api}/movie/upcoming?api_key={api_key}&language=es-ES&page=1'
+    url = f'{base_url_api}/movie/upcoming?api_key={api_key}&language=en-US&page=1'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -38,7 +38,7 @@ def obtener_peliculas_proximas():
 
 def obtener_peliculas():
     endpoints = [
-        f'{base_url_api}/movie/popular?api_key={api_key}&language=es-ES&page=1',
+        f'{base_url_api}/movie/popular?api_key={api_key}&language=en-US&page=1',
     ]
     peliculas_con_posters = []
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
@@ -67,7 +67,7 @@ def obtener_peliculas():
 def pagina_peliculas(categoria, page=1):
     if categoria in CATEGORIAS:
         endpoint = CATEGORIAS[categoria]
-        url = f'{base_url_api}/movie/{endpoint}?api_key={api_key}&language=es-ES&page={page}'
+        url = f'{base_url_api}/movie/{endpoint}?api_key={api_key}&language=en-US&page={page}'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -88,7 +88,7 @@ def pagina_peliculas(categoria, page=1):
 def pagina_series(categoria, page=1):
     if categoria in CATEGORIAS_SERIES:
         endpoint = CATEGORIAS_SERIES[categoria]
-        url = f'{base_url_api}/tv/{endpoint}?api_key={api_key}&language=es-ES&page={page}'
+        url = f'{base_url_api}/tv/{endpoint}?api_key={api_key}&language=en-US&page={page}'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -107,7 +107,7 @@ def pagina_series(categoria, page=1):
     return [], 1
 
 def obtener_series_proximas():
-    url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=es-ES&page=1'
+    url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=en-US&page=1'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -125,7 +125,7 @@ def obtener_series_proximas():
     return []
 
 def obtener_series_populares():
-    url = f'{base_url_api}/tv/top_rated?api_key={api_key}&language=es-ES&page=1'
+    url = f'{base_url_api}/tv/top_rated?api_key={api_key}&language=en-US&page=1'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -145,19 +145,19 @@ def obtener_series_populares():
 def obtener_detalles_pelicuas(movie_id):
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
     base_url_backdrop = 'https://image.tmdb.org/t/p/original'
-    response = requests.get(f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=es-ES")
-    credits_response = requests.get(f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=es-ES")
-    videos_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+    response = requests.get(f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=en-US")
+    credits_response = requests.get(f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=en-US")
+    videos_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
 
     if response.status_code == 200 and credits_response.status_code == 200 and videos_response.status_code == 200:
         data = response.json()
         credits_data = credits_response.json()
-        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
 
     if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
         data = response.json()
         credits_data = credits_response.json()
-        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=es-ES")
+        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
 
     if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
         data = response.json()
@@ -197,8 +197,8 @@ def obtener_detalles_series(serie_id):
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
     base_url_backdrop = 'https://image.tmdb.org/t/p/original'
 
-    response = requests.get(f"{base_url_api}/tv/{serie_id}?api_key={api_key}&language=es-ES")
-    credits_response = requests.get(f"{base_url_api}/tv/{serie_id}/credits?api_key={api_key}&language=es-ES")
+    response = requests.get(f"{base_url_api}/tv/{serie_id}?api_key={api_key}&language=en-US")
+    credits_response = requests.get(f"{base_url_api}/tv/{serie_id}/credits?api_key={api_key}&language=en-US")
     
     if response.status_code == 200 and credits_response.status_code == 200:
         data = response.json()
@@ -227,7 +227,7 @@ def obtener_detalles_series(serie_id):
 
 def pagina_actores(page=1):
     """Obtiene los actores populares de la API de TMDB."""
-    url = f'{base_url_api}/person/popular?api_key={api_key}&language=es&page={page}'
+    url = f'{base_url_api}/person/popular?api_key={api_key}&language=en-US&page={page}'
     response = requests.get(url)
     
     if response.status_code == 200:

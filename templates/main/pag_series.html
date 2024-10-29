@@ -38,7 +38,11 @@
         <div class="grid">
             {% for serie in series %}
                 <div class="movie-card">
-                    <img src="{{ serie['poster_url'] }}" alt="{{ serie['name'] }}" loading="lazy">  <!-- Cambiado a 'name' -->
+                    <a href="{{ url_for('main.serie', serie_id= serie['id']) }}">
+                        <picture>
+                            <img src="{{ serie['poster_url'] }}" alt="{{ serie['name'] }}" loading="lazy">  <!-- Cambiado a 'name' -->
+                        </picture>
+                    </a>    
                 </div>
             {% endfor %}
         </div>

@@ -23,7 +23,7 @@
         <nav class="nav">
             <ul class="nav_list">
                 <li>
-                    <a href="#">Películas</a>
+                    <a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Películas</a>
                     <ul class="dropdown">
                         <li><a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Populares</a></li>
                         <li><a href="{{ url_for('main.peliculas_ruta', categoria='en_cartelera', page=1) }}">En cartelera</a></li>
@@ -32,7 +32,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Series</a>
+                    <a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Series</a>
                     <ul class="dropdown">
                         <li><a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Populares</a></li>
                         <li><a href="{{ url_for('main.series_ruta', categoria='se_emiten_hoy', page=1) }}">Se emiten hoy</a></li>
@@ -41,7 +41,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Gente</a>
+                    <a href="#">Actores</a>
                     <ul class="dropdown">
                         <li><a href="{{ url_for('main.actores_populares', page=1) }}">Actores Populares</a></li>
                     </ul>
@@ -112,6 +112,9 @@
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
+            </div>
+            <div>
+                <h4 class="copy">Copyright&copy make by Sire and MaxiRoez</h4>
             </div>
         </div>
    </footer>
