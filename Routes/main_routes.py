@@ -87,30 +87,69 @@ def fundadores():
 
 @main_bp.route('/buscar_pelicula')
 def buscar_pelicula():
-    query = request.args.get('query')  # Obtener el término de búsqueda desde el formulario
-    page = request.args.get('page', 1, type=int)  # Obtener el número de página, por defecto es 1
+    query = request.args.get('query')  # Término de búsqueda desde el formulario
+    page = request.args.get('page', 1, type=int)  # Página actual, por defecto es 1
 
-    # Llamada a la API de TMDB para buscar películas
-    url = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={query}&language=es-ES&page={page}'
-    response = requests.get(url)
+    # URLs para buscar en películas, series y actores
+    url_peliculas = f'{base_url_api}/search/movie?api_key={api_key}&query={query}&language=en-US&page={page}'
+    url_series = f'{base_url_api}/search/tv?api_key={api_key}&query={query}&language=en-US&page={page}'
+    url_actores = f'{base_url_api}/search/person?api_key={api_key}&query={query}&language=en-US&page={page}'
 
-    if response.status_code == 200:
-        data = response.json()
-        peliculas = data['results']
-        total_pages = data['total_pages']
-        
-        base_url = 'https://image.tmdb.org/t/p/w500'
-        imagen_por_defecto = url_for('static', filename='img/default_image.png', _external=True)  # Imagen por defecto
+    # Hacer las tres solicitudes a la API de TMDB
+    response_peliculas = requests.get(url_peliculas)
+    response_series = requests.get(url_series)
+    response_actores = requests.get(url_actores)
 
-        # Actualizar el poster_url de cada película
-        for pelicula in peliculas:
-            if pelicula.get('poster_path'):  # Si existe poster_path
-                pelicula['poster_url'] = base_url + pelicula['poster_path']
-            else:  # Si no hay poster, usar la imagen por defecto
-                pelicula['poster_url'] = imagen_por_defecto
-    else:
-        peliculas = []
-        total_pages = 1
+    peliculas, series, actores = [], [], []
+    imagen_por_defecto = url_for('static', filename='img/default_image.png', _external=True)
+    base_url = 'https://image.tmdb.org/t/p/w500'
 
-    # Renderizar la plantilla de resultados de búsqueda
-    return render_template('main/layout.html', peliculas=peliculas, query=query, page=page, total_pages=total_pages)
+    # Procesar la respuesta de películas
+    if response_peliculas.status_code == 200:
+        data_peliculas = response_peliculas.json()
+        peliculas = [
+            {
+                'id': item['id'],
+                'title': item['title'],
+                'poster_url': base_url + item['poster_path'] if item.get('poster_path') else imagen_por_defecto,
+                'release_date': item.get('release_date', 'Fecha desconocida')
+            }
+            for item in data_peliculas['results']
+        ]
+
+    # Procesar la respuesta de series
+    if response_series.status_code == 200:
+        data_series = response_series.json()
+        series = [
+            {
+                'id': item['id'],
+                'title': item['name'],  # 'name' en lugar de 'title' para series
+                'poster_url': base_url + item['poster_path'] if item.get('poster_path') else imagen_por_defecto,
+                'release_date': item.get('first_air_date', 'Fecha desconocida')
+            }
+            for item in data_series['results']
+        ]
+
+    # Procesar la respuesta de actores
+    if response_actores.status_code == 200:
+        data_actores = response_actores.json()
+        actores = [
+            {
+                'id': item['id'],
+                'name': item['name'],
+                'profile_url': base_url + item['profile_path'] if item.get('profile_path') else imagen_por_defecto,
+                'known_for': [known['title'] if 'title' in known else known['name'] for known in item['known_for']]
+            }
+            for item in data_actores['results']
+        ]
+
+    # Renderizar la plantilla con los resultados combinados
+    return render_template(
+        'main/layout.html',
+        query=query,
+        peliculas=peliculas,
+        series=series,
+        actores=actores,
+        page=page
+    )
+

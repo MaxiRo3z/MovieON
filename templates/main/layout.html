@@ -9,42 +9,57 @@
 {% block content %}
 <h1 class="search-title">Resultados de búsqueda para "{{ query }}"</h1>
 
-<div class="movies-grid">
-    {% if peliculas %}
-        {% for pelicula in peliculas %}
-            <div class="movie-card">
-                <img class="movie-poster" src="{{ pelicula.poster_url if pelicula.poster_url else url_for('static', filename='img/default_image.png') }}" alt="{{ pelicula.title }}">
-                <h3 class="movie-title">{{ pelicula.title }}</h3>
-                <p class="movie-release-date">{{ pelicula.release_date }}</p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p class="no-results">No se encontraron resultados para "{{ query }}".</p>
-    {% endif %}
-</div>
+<div class="search-results">
 
-<!-- Paginación -->
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        {% if page > 1 %}
-            <li class="page-item">
-                <a class="page-link" href="{{ url_for('main.buscar_pelicula', query=query, page=page-1) }}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
+    <!-- Sección de películas -->
+    <h2>Películas</h2>
+    <div class="movies-grid">
+        {% if peliculas %}
+            {% for pelicula in peliculas %}
+                <div class="movie-card">
+                    <a href="{{ url_for('main.movie', movie_id= pelicula['id']) }}">
+                        <picture>
+                            <img src="{{ pelicula['poster_url'] }}" alt="{{ pelicula['title'] }}" loading="lazy">
+                        </picture>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-results">No se encontraron películas.</p>
         {% endif %}
-        {% for p in range(1, total_pages + 1) %}
-            <li class="page-item {% if p == page %}active{% endif %}">
-                <a class="page-link" href="{{ url_for('main.buscar_pelicula', query=query, page=p) }}">{{ p }}</a>
-            </li>
-        {% endfor %}
-        {% if page < total_pages %}
-            <li class="page-item">
-                <a class="page-link" href="{{ url_for('main.buscar_pelicula', query=query, page=page+1) }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
+    </div>
+
+    <!-- Sección de series -->
+    <h2>Series</h2>
+    <div class="movies-grid">
+        {% if series %}
+            {% for serie in series %}
+                <div class="movie-card">
+                    <a href="{{ url_for('main.serie', serie_id= serie['id']) }}">
+                        <picture>
+                            <img class="movie-poster" src="{{ serie.poster_url }}" alt="{{ serie.title }}">
+                        </picture>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-results">No se encontraron series.</p>
         {% endif %}
-    </ul>
-</nav>
+    </div>
+
+    <!-- Sección de actores -->
+    <h2>Actores</h2>
+    <div class="movies-grid">
+        {% if actores %}
+            {% for actor in actores %}
+                <div class="actor-card">
+                    <img class="actor-photo" src="{{ actor.profile_url }}" alt="{{ actor.name }}">
+                    <h3 class="actor-name">{{ actor.name }}</h3>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-actors">No se encontraron actores.</p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

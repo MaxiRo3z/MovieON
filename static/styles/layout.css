@@ -14,17 +14,26 @@
 }
 
 .movie-card {
-    text-align: center;
-    background-color: #f9f9f9;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 180px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: transparent; /* Cambié a transparente para quitar el fondo blanco */
+    padding: 0; /* Quitar cualquier padding */
+    margin: 0; /* Quitar márgenes */
+    box-shadow: none; /* Quitar el sombreado */
 }
 
-.movie-poster {
+.movie-card img {
     width: 100%;
-    height: auto;
-    border-radius: 4px;
+    height: 270px; /* Altura fija para uniformar las imágenes */
+    object-fit: cover; /* Mantener proporción y rellenar el espacio sin distorsión */
+    border-radius: 8px;
+    margin: 0; /* Quitar márgenes para evitar bordes */
+    padding: 0; /* Asegurarse de que no haya padding */
 }
 
 .movie-title {
@@ -38,6 +47,81 @@
 }
 
 .no-results {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 30px;
+    color: #888;
+}
+
+/* Estilos de paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.page-link:hover {
+    background-color: #0056b3;
+}
+
+.page-item.active .page-link {
+    background-color: #0056b3;
+    pointer-events: none;
+}
+
+.actor-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.actors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.actor-card {
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.096); /* Fondo más transparente */
+    padding: 10px;
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+}
+
+.actor-photo {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.actor-name {
+    font-size: 18px;
+    margin: 7px 0 5px;
+    font-weight: bold;
+    color: #fff
+}
+
+
+.no-actors {
     text-align: center;
     font-size: 18px;
     margin-top: 30px;

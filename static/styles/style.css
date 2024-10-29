@@ -15,7 +15,7 @@ body {
     overflow-x: hidden; /* Bloquea el desplazamiento horizontal */
     overflow-y: auto; /* Permite el desplazamiento vertical */
     
-    background-color: #1c1c1c;
+    background-color: #000;
 }
 
 /* Corrección para el hover del título */
@@ -555,6 +555,11 @@ ul{
   .footer-col{
     width: 100%;
 }
+}
+
+.copy{
+    color: #fff;
+    text-align: center;
 }
 /*---------------------------------------------------------------------------Footer--------------------------------------------------------------------*/
 
