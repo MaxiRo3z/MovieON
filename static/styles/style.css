@@ -53,12 +53,16 @@ h1 a:hover {
 .logo {
     display: flex;
     align-items: center;
+    transition: transform 0.2s;
 }
 
 .logo img {
     height: 3.5em;
     width: auto;
     margin-right: 30px;
+}
+.logo:hover {
+    transform: scale(1.05);
 }
 
 /* Estilos del menú de navegación */
