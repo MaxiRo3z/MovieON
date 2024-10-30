@@ -12,9 +12,15 @@ def index():
     series_p = obtener_series_populares()
     return render_template("main/index.html", estrenos=estrenos, peliculas=peliculas, series=series, seriesp=series_p)
 
-@main_bp.route("/peliculas/<categoria>/<int:page>")
+@main_bp.route("/peliculas/<categoria>", methods=['GET'])
+@main_bp.route("/peliculas/<categoria>/<int:page>", methods=['GET'])
 def peliculas_ruta(categoria, page=1):
-    peliculas, total_pages = pagina_peliculas(categoria, page)
+    genero = request.args.get('genero', None)  # Obtener el ID del género desde los parámetros de consulta
+
+    peliculas, total_pages = pagina_peliculas(categoria, page, genero)
+
+    if peliculas is None:
+        return "Error al obtener los datos de la API", 500
 
     # Calcular las páginas a mostrar
     if page <= 5:
@@ -27,7 +33,14 @@ def peliculas_ruta(categoria, page=1):
         start_page = page - 4  # Mostrar 4 páginas antes
         end_page = page + 5  # Mostrar 5 páginas después
 
-    return render_template('main/peliculas.html', peliculas=peliculas, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+    return render_template('main/peliculas.html', 
+                           peliculas=peliculas, 
+                           categoria=categoria, 
+                           page=page, 
+                           total_pages=total_pages, 
+                           start_page=start_page, 
+                           end_page=end_page, 
+                           genero=genero)
 
 
 @main_bp.route("/series/<categoria>/<int:page>")

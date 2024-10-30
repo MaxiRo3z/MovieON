@@ -8,28 +8,23 @@
 <div class="container">
     <!-- Barra lateral de filtros -->
     <div class="sidebar">
-        <button class="filter-button">Ordenar</button>
-        <button class="filter-button">Dónde se puede ver</button>
-
-        <div class="filter-section">
+        <form method="get" action="{{ url_for('main.peliculas_ruta', categoria=categoria) }}">
             <h3>Filtros</h3>
+            
+            <!-- Filtro de Género -->
             <div class="filter">
-                <h4>Muéstrame</h4>
-                <label><input type="radio" name="filter" checked> Todo</label>
-                <label><input type="radio" name="filter"> Películas que no he visto</label>
-                <label><input type="radio" name="filter"> Películas que he visto</label>
+                <h4>Género</h4>
+                <select name="genero" onchange="this.form.submit()">
+                    <option value="">Todos</option>
+                    <option value="27" {% if genero == '27' %}selected{% endif %}>Terror</option>
+                    <option value="28" {% if genero == '28' %}selected{% endif %}>Acción</option>
+                    <option value="35" {% if genero == '35' %}selected{% endif %}>Comedia</option>
+                    <option value="18" {% if genero == '18' %}selected{% endif %}>Drama</option>
+                    <option value="878" {% if genero == '878' %}selected{% endif %}>Ciencia Ficción</option>
+                    <!-- Agrega otros géneros aquí según el ID de género en TMDB -->
+                </select>
             </div>
-
-            <div class="filter">
-                <h4>Disponibilidad</h4>
-                <label><input type="checkbox" checked> ¿Buscar por todas las disponibilidades?</label>
-            </div>
-
-            <div class="filter">
-                <h4>Fechas de estreno</h4>
-                <label><input type="checkbox"> ¿Buscar por fecha de estreno?</label>
-            </div>
-        </div>
+        </form>
     </div>
 
     <!-- Grid de películas -->

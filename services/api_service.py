@@ -64,27 +64,40 @@ def obtener_peliculas():
 
 
 
-def pagina_peliculas(categoria, page=1):
-    if categoria in CATEGORIAS:
-        endpoint = CATEGORIAS[categoria]
-        url = f'{base_url_api}/movie/{endpoint}?api_key={api_key}&language=en-US&page={page}'
+def pagina_peliculas(categoria, page=1, genero=None):
+    categorias_validas = CATEGORIAS
+    categoria_api = categorias_validas.get(categoria, "popular")
+
+    # Construir la URL en función del género
+    if genero:
+        url = f'https://api.themoviedb.org/3/discover/movie?api_key={api_key}&language=en-US&page={page}&with_genres={genero}'
+    else:
+        url = f'https://api.themoviedb.org/3/movie/{categoria_api}?api_key={api_key}&language=en-US&page={page}'
+
+    try:
         response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            peliculas = data['results']
+        response.raise_for_status()
+        data = response.json()
+
+        if 'results' in data:
             base_url = 'https://image.tmdb.org/t/p/w500'
-            peliculas_con_posters = [
+            peliculas = [
                 {
                     'id': pelicula['id'],
                     'title': pelicula['title'],
                     'poster_url': base_url + pelicula['poster_path']
                 }
-                for pelicula in peliculas if pelicula['poster_path']
+                for pelicula in data['results'] if pelicula.get('poster_path')
             ]
-            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
-            return peliculas_con_posters, total_pages
-    return [], 1
 
+            total_pages = min(data.get('total_pages', 1), 500)  # Limitar total_pages a un máximo de 500
+            return peliculas, total_pages
+        else:
+            return [], 0
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error al obtener datos de la API: {e}")
+        return None, 0
 def pagina_series(categoria, page=1):
     if categoria in CATEGORIAS_SERIES:
         endpoint = CATEGORIAS_SERIES[categoria]
