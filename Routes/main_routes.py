@@ -4,6 +4,57 @@ from services.api_service import *
 from . import main_bp
 from cache_config import cache  # Importa cache aquí
 
+GENEROS_PELICULAS= {
+    "28": "Acción",
+    "12": "Aventura",
+    "16": "Animación",
+    "35": "Comedia",
+    "80": "Crimen",
+    "99": "Documental",
+    "18": "Drama",
+    "10751": "Familia",
+    "14": "Fantasía",
+    "36": "Historia",
+    "27": "Terror",
+    "10402": "Música",
+    "9648": "Misterio",
+    "10770": "Película de TV",
+    "10749": "Romance",
+    "878": "Ciencia ficción",
+    "53": "Suspense",
+    "10752": "Bélica",
+    "37": "Western",
+    # Agrega más géneros aquí si es necesario
+}
+
+
+GENEROS_SERIES= {
+    "28": "Acción",
+    "12": "Aventura",
+    "16": "Animación",
+    "35": "Comedia",
+    "80": "Crimen",
+    "99": "Documental",
+    "18": "Drama",
+    "10751": "Familia",
+    "14": "Fantasía",
+    "36": "Historia",
+    "27": "Terror",
+    "10402": "Música",
+    "9648": "Misterio",
+    "10770": "Película de TV",
+    "10749": "Romance",
+    "878": "Ciencia ficción",
+    "53": "Suspense",
+    "10752": "Bélica",
+    "37": "Western",
+    "10759": "Acción y Aventura",
+    "10765": "Ciencia ficción y Fantasía",
+    "10766": "Telenovela",
+    "10767": "Reality",
+    "10768": "Guerra",
+}
+
 @main_bp.route("/")
 def index():
     estrenos = obtener_peliculas_proximas()
@@ -15,24 +66,35 @@ def index():
 @main_bp.route("/peliculas/<categoria>", methods=['GET'])
 @main_bp.route("/peliculas/<categoria>/<int:page>", methods=['GET'])
 def peliculas_ruta(categoria, page=1):
-    genero = request.args.get('genero', None)  # Obtener el ID del género desde los parámetros de consulta
+    # Obtener géneros seleccionados del usuario
+    generos = request.args.getlist('selected_genres')
+    year = request.args.get('year')
+    min_vote = request.args.get('min_vote')
 
-    peliculas, total_pages = pagina_peliculas(categoria, page, genero)
+    # Obtener películas y páginas totales según los filtros seleccionados
+    peliculas, total_pages = pagina_peliculas(categoria, page, generos, year, min_vote)
 
     if peliculas is None:
         return "Error al obtener los datos de la API", 500
 
-    # Calcular las páginas a mostrar
+    # Calcular las páginas a mostrar en el paginador
     if page <= 5:
         start_page = 1
-        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
+        end_page = min(10, total_pages)
     elif page + 4 > total_pages:
-        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
+        start_page = max(1, total_pages - 9)
         end_page = total_pages
     else:
-        start_page = page - 4  # Mostrar 4 páginas antes
-        end_page = page + 5  # Mostrar 5 páginas después
+        start_page = page - 4
+        end_page = page + 5
 
+    # Verificar si es una solicitud AJAX para cargar contenido dinámico
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return render_template('main/peliculas_grid.html', peliculas=peliculas, 
+                               page=page, start_page=start_page, end_page=end_page, 
+                               total_pages=total_pages, categoria=categoria, generos=generos)
+
+    # Renderizar la plantilla principal de películas
     return render_template('main/peliculas.html', 
                            peliculas=peliculas, 
                            categoria=categoria, 
@@ -40,25 +102,45 @@ def peliculas_ruta(categoria, page=1):
                            total_pages=total_pages, 
                            start_page=start_page, 
                            end_page=end_page, 
-                           genero=genero)
-
-
-@main_bp.route("/series/<categoria>/<int:page>")
+                           generos=generos, 
+                           generos_disponibles=GENEROS_PELICULAS)
+    
+@main_bp.route("/series/<categoria>", methods=['GET'])
+@main_bp.route("/series/<categoria>/<int:page>", methods=['GET'])
 def series_ruta(categoria, page=1):
-    series, total_pages = pagina_series(categoria, page)
+    generos = request.args.getlist('selected_genres')
+    year = request.args.get('year')
+    min_vote = request.args.get('min_vote')
 
-    # Calcular las páginas a mostrar
+    series, total_pages = pagina_series(categoria, page, generos, year, min_vote)
+
+    if series is None:
+        return "Error al obtener los datos de la API", 500
+
     if page <= 5:
         start_page = 1
-        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
+        end_page = min(10, total_pages)
     elif page + 4 > total_pages:
-        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
+        start_page = max(1, total_pages - 9)
         end_page = total_pages
     else:
-        start_page = page - 4  # Mostrar 4 páginas antes
-        end_page = page + 5  # Mostrar 5 páginas después
+        start_page = page - 4
+        end_page = page + 5
 
-    return render_template('main/pag_series.html', series=series, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return render_template('main/series_grid.html', series=series, 
+                               page=page, start_page=start_page, end_page=end_page, 
+                               total_pages=total_pages, categoria=categoria, generos=generos)
+
+    return render_template('main/pag_series.html', 
+                           series=series, 
+                           categoria=categoria, 
+                           page=page, 
+                           total_pages=total_pages, 
+                           start_page=start_page, 
+                           end_page=end_page, 
+                           generos=generos, 
+                           generos_disponibles=GENEROS_SERIES)
 
 @main_bp.route('/movie/<int:movie_id>')
 def movie(movie_id):

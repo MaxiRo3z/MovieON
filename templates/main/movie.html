@@ -26,7 +26,9 @@
                 <button class="action-btn">Me gusta</button>
                 <button class="action-btn">Guardar</button>
                 {% if detalles_pelicula.trailer_url %}
-                    <button class="trailer-btn" onclick="mostrarTrailer()">Ver Tráiler</button>
+                    <a href="#trailer-container">
+                        <button class="trailer-btn" onclick="mostrarTrailer()">Ver Tráiler</button>
+                    </a>
                 {% else %}
                     <button class="trailer-btn" disabled>Tráiler no disponible</button>
                 {% endif %}

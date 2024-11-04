@@ -1,43 +1,63 @@
 .container {
     display: flex;
     padding: 20px;
+    align-items: flex-start;
+    max-width: 100%; /* Asegura que el contenedor no se desborde horizontalmente */
+    overflow-x: hidden; /* Oculta el desbordamiento horizontal si se produce */
 }
 
 .sidebar {
-    width: 250px;
+    width: 100%; /* Cambia el ancho a 100% en pantallas pequeñas */
+    max-width: 270px; /* Asegura que no exceda este ancho */
+    flex-basis: 270px; /* Ajusta el espacio ocupado por la barra lateral */
+    max-height: 100vh;
     padding: 20px;
     background-color: #f5f5f5;
     border-radius: 8px;
     margin-right: 20px;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    overflow-x: hidden; /* Oculta desbordamiento horizontal */
 }
 
-.filter-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
+.sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 5px;
+}
+
+.genre-button {
+    margin: 1px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     background-color: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    text-align: left;
+    color: #333;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.filter-section {
-    margin-top: 20px;
+.genre-button:hover {
+    background-color: #f0f0f0;
 }
 
-.filter h4 {
-    margin-bottom: 10px;
-}
-
-.filter label {
-    display: block;
-    margin-bottom: 10px;
+.genre-button.active {
+    background-color: #007bff; /* Azul */
+    color: #fff; /* Texto blanco */
+    border-color: #007bff; /* Borde azul */
 }
 
 .movies-grid {
     flex: 1;
+    overflow-x: hidden; /* Oculta cualquier desbordamiento horizontal */
 }
 
 .grid {
@@ -54,25 +74,26 @@
     width: 180px;
     border-radius: 8px;
     text-align: center;
-    background-color: transparent; /* Cambié a transparente para quitar el fondo blanco */
-    padding: 0; /* Quitar cualquier padding */
-    margin: 0; /* Quitar márgenes */
-    box-shadow: none; /* Quitar el sombreado */
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
 }
 
 .movie-card img {
     width: 100%;
-    height: 270px; /* Altura fija para uniformar las imágenes */
-    object-fit: cover; /* Mantener proporción y rellenar el espacio sin distorsión */
+    height: 270px;
+    object-fit: cover;
     border-radius: 8px;
-    margin: 0; /* Quitar márgenes para evitar bordes */
-    padding: 0; /* Asegurarse de que no haya padding */
+    margin: 0;
+    padding: 0;
 }
 
-.movies-grid h2{
+.movies-grid h2 {
     color: #fff;
     padding-bottom: 10px;
 }
+
 #paginador {
     display: flex;
     justify-content: center;
@@ -80,36 +101,44 @@
     margin: 20px 0;
 }
 
-/* Estilo de cada botón de página */
 .pagination-container {
     display: flex;
-    justify-content: center; /* Centrar horizontalmente */
-    margin-top: 20px; /* Espacio entre el grid de películas y el paginador */
-}
-
-#paginador {
-    display: flex; /* Usar flexbox para el paginador */
+    justify-content: center;
+    margin-top: 20px;
 }
 
 #paginador a, #paginador span {
     padding: 10px 15px;
     margin: 0 5px;
-    text-decoration: none; /* Sin subrayado */
-    color: #f58723; /* Color de los enlaces */
-    border: 1px solid #f58723; /* Borde */
-    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none;
+    color: #f58723;
+    border: 1px solid #f58723;
+    border-radius: 5px;
 }
 
 #paginador a.active {
-    background-color: #f58723; /* Color del botón activo */
-    color: white; /* Color del texto activo */
+    background-color: #f58723;
+    color: white;
 }
 
 #paginador a:hover {
-    background-color: #f58723; /* Color en hover */
-    color: white; /* Color del texto en hover */
+    background-color: #f58723;
+    color: white;
 }
 
 #paginador span {
-    color: #ccc; /* Color para enlaces desactivados */
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+        margin-right: 0;
+    }
+
+    .container {
+        flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+    }
 }

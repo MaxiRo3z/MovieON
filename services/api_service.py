@@ -62,20 +62,46 @@ def obtener_peliculas():
                     ids_ya_agregados.add(movie_id)
     return peliculas_con_posters
 
+def obtener_categoria(categoria):
+    # Define las categorías válidas y su mapeo a la API
+    categorias_validas = {
+        'populares': 'popular',
+        'en_cartelera': 'now_playing',
+        'proximas': 'upcoming',
+        'mejor_puntuadas': 'top_rated'
+    }
+    # Retorna la categoría correspondiente o 'popular' como valor por defecto
+    return categorias_validas.get(categoria, 'popular')
 
+def obtener_categoria_series(categoria):
+    categorias_validas = {
+        'populares': 'popular',
+        'se_emiten_hoy': 'airing_today',
+        'en_television': 'on_the_air',
+        'mejor_puntuadas': 'top_rated'
+    }
+    return categorias_validas.get(categoria, 'popular')
 
-def pagina_peliculas(categoria, page=1, genero=None):
-    categorias_validas = CATEGORIAS
-    categoria_api = categorias_validas.get(categoria, "popular")
+def pagina_peliculas(categoria, page=1, generos=None, year=None, min_vote=None):
+    # Obtiene la categoría de la API
+    categoria_api = obtener_categoria(categoria)
 
-    # Construir la URL en función del género
-    if genero:
-        url = f'https://api.themoviedb.org/3/discover/movie?api_key={api_key}&language=en-US&page={page}&with_genres={genero}'
-    else:
-        url = f'https://api.themoviedb.org/3/movie/{categoria_api}?api_key={api_key}&language=en-US&page={page}'
+    # Configura los parámetros para la API
+    params = {
+        'api_key': api_key,
+        'language': 'en-US',
+        'page': page
+    }
+
+    # Si hay géneros seleccionados, los agregamos a los parámetros
+    if generos:
+        params['with_genres'] = ",".join(generos)
+
+    # Realiza la solicitud a la API de acuerdo a la categoría seleccionada
+    url = f'https://api.themoviedb.org/3/discover/movie' if generos else f'https://api.themoviedb.org/3/movie/{categoria_api}'
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
 
@@ -90,34 +116,55 @@ def pagina_peliculas(categoria, page=1, genero=None):
                 for pelicula in data['results'] if pelicula.get('poster_path')
             ]
 
-            total_pages = min(data.get('total_pages', 1), 500)  # Limitar total_pages a un máximo de 500
+            total_pages = min(data.get('total_pages', 1), 500)
             return peliculas, total_pages
         else:
             return [], 0
-
     except requests.exceptions.RequestException as e:
         print(f"Error al obtener datos de la API: {e}")
         return None, 0
-def pagina_series(categoria, page=1):
-    if categoria in CATEGORIAS_SERIES:
-        endpoint = CATEGORIAS_SERIES[categoria]
-        url = f'{base_url_api}/tv/{endpoint}?api_key={api_key}&language=en-US&page={page}'
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            series = data['results']
+    
+def pagina_series(categoria, page=1, generos=None, year=None, min_vote=None):
+    categoria_api = obtener_categoria_series(categoria)
+
+    params = {
+        'api_key': api_key,
+        'language': 'en-US',
+        'page': page
+    }
+
+    if generos:
+        params['with_genres'] = ",".join(generos)
+    if year:
+        params['year'] = year
+    if min_vote:
+        params['vote_average.gte'] = min_vote
+
+    url = f'https://api.themoviedb.org/3/discover/tv' if generos else f'https://api.themoviedb.org/3/tv/{categoria_api}'
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        if 'results' in data:
             base_url = 'https://image.tmdb.org/t/p/w500'
-            series_con_posters = [
+            series = [
                 {
                     'id': serie['id'],
-                    'name': serie['name'],  # Cambia 'title' por 'name'
+                    'title': serie['name'],
                     'poster_url': base_url + serie['poster_path']
                 }
-                for serie in series if serie.get('poster_path')  # Usa get para evitar errores
+                for serie in data['results'] if serie.get('poster_path') is not None
             ]
-            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
-            return series_con_posters, total_pages
-    return [], 1
+
+            total_pages = min(data.get('total_pages', 1), 500)
+            return series, total_pages
+        else:
+            return [], 0
+    except requests.exceptions.RequestException as e:
+        print(f"Error al obtener datos de la API: {e}")
+        return [], 0  # Retorna una lista vacía en caso de error
 
 def obtener_series_proximas():
     url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=en-US&page=1'

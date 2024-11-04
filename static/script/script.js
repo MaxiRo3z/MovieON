@@ -53,25 +53,7 @@ const peliculasLink = document.querySelector('.nav_list li:nth-child(1)'); // Se
     peliculasLink.addEventListener('mouseleave', () => {
         peliculasLink.classList.remove('active'); // Remueve la clase cuando el mouse sale
     });
-    /*function toggleMenu() {
-        const menu = document.getElementById('menu');
-        if (menu.style.display === 'block') {
-          menu.style.display = 'none';
-        } else {
-          menu.style.display = 'block';
-        }
-      }
-          function toggleSubmenu(event) {
-      event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
-      const submenu = event.target.nextElementSibling; // Seleccionar el submenú relacionado
-
-      if (submenu.style.display === 'block') {
-        submenu.style.display = 'none'; // Ocultar si ya está visible
-      } else {
-        submenu.style.display = 'block'; // Mostrar si está oculto
-      }
-    }
-*/
+    
 function mostrarTrailer() {
     const trailerContainer = document.getElementById('trailer-container');
     const trailerIframe = document.getElementById('trailer-iframe');
@@ -82,4 +64,9 @@ function mostrarTrailer() {
 document.querySelector('.icon_button img').addEventListener('click', function() {
     document.querySelector('.search_form').classList.toggle('active');
 });
+
+function mostrarTrailer() {
+    const trailerContainer = document.getElementById("trailer-container");
+    trailerContainer.style.display = "block";
+}
 
