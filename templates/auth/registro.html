@@ -12,13 +12,10 @@
         <h1>Registrarse</h1>
         <form action="{{ url_for('auth.register') }}" method="post" class="form-main">
             <div class="name">
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required class="input-campo">
+                <input type="text" id="full_name" name="full_name" placeholder="Nombre completo" required class="input-campo">
             </div>
             <div class="user">
                 <input type="text" id="username" name="username" placeholder="Nombre de usuario" required class="input-campo">
-            </div>
-            <div class="name">
-                <input type="text" id="full_name" name="full_name" placeholder="Nombre completo" required class="input-campo">
             </div>
             <div class="email">
                 <input type="email" id="email" name="email" placeholder="Correo electronico" required class="input-campo">

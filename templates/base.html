@@ -60,8 +60,13 @@
             <button class="icon_button"> 
                 <span>ES</span>
             </button>
-            <a href="{{ url_for('auth.logear') }}" class="header_link nav_button">Iniciar sesión</a>
-            <a href="{{ url_for('auth.register') }}" class="header_link nav_button">Únete</a>
+            {% if 'user_id' in session %}
+                <span class="header_link">Hola, {{ session['username'] }}</span>
+                <a href="{{ url_for('auth.logout') }}" class="header_link nav_button">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('auth.logear') }}" class="header_link nav_button">Iniciar sesión</a>
+                <a href="{{ url_for('auth.register') }}" class="header_link nav_button">Únete</a>
+            {% endif %}
             
             <!-- Formulario de búsqueda -->
             <form action="{{ url_for('main.buscar_pelicula') }}" method="GET" class="search-form">

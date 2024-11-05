@@ -22,12 +22,12 @@ def logear():
     
     return render_template("auth/sesion.html")
 
-auth_bp.route('/logout')
+@auth_bp.route('/logout')
 def logout():
     session.pop('user_id', None)
     session.pop('username', None)
     flash('Has cerrado sesión', 'info')
-    return redirect(url_for('auth_bp.login'))
+    return redirect(url_for('main.index'))
 
 @auth_bp.route("/register", methods=['GET', 'POST'])
 def register():
