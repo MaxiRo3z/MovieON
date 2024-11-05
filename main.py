@@ -2,6 +2,7 @@ from flask import Flask
 from Routes import main_bp, auth_bp
 from database.db import session
 from cache_config import cache  # Asegúrate de importar cache desde aquí
+import os
 
 app = Flask(__name__)
 
@@ -12,9 +13,10 @@ def add_header(response):
     response.cache_control.no_store = True
     return response
 
+secret_key = os.urandom(24).hex()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'your_secret_key'
+app.secret_key = secret_key
 
 # Registrar Blueprints
 app.register_blueprint(main_bp, url_prefix='/')

@@ -66,82 +66,38 @@ def index():
 @main_bp.route("/peliculas/<categoria>", methods=['GET'])
 @main_bp.route("/peliculas/<categoria>/<int:page>", methods=['GET'])
 def peliculas_ruta(categoria, page=1):
-    # Obtener géneros seleccionados del usuario
-    generos = request.args.getlist('selected_genres')
-    year = request.args.get('year')
-    min_vote = request.args.get('min_vote')
+    peliculas, total_pages = pagina_peliculas(categoria, page)
 
-    # Obtener películas y páginas totales según los filtros seleccionados
-    peliculas, total_pages = pagina_peliculas(categoria, page, generos, year, min_vote)
-
-    if peliculas is None:
-        return "Error al obtener los datos de la API", 500
-
-    # Calcular las páginas a mostrar en el paginador
+    # Calcular las páginas a mostrar
     if page <= 5:
         start_page = 1
-        end_page = min(10, total_pages)
+        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
     elif page + 4 > total_pages:
-        start_page = max(1, total_pages - 9)
+        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
         end_page = total_pages
     else:
-        start_page = page - 4
-        end_page = page + 5
+        start_page = page - 4  # Mostrar 4 páginas antes
+        end_page = page + 5  # Mostrar 5 páginas después
 
-    # Verificar si es una solicitud AJAX para cargar contenido dinámico
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return render_template('main/peliculas_grid.html', peliculas=peliculas, 
-                               page=page, start_page=start_page, end_page=end_page, 
-                               total_pages=total_pages, categoria=categoria, generos=generos)
-
-    # Renderizar la plantilla principal de películas
-    return render_template('main/peliculas.html', 
-                           peliculas=peliculas, 
-                           categoria=categoria, 
-                           page=page, 
-                           total_pages=total_pages, 
-                           start_page=start_page, 
-                           end_page=end_page, 
-                           generos=generos, 
-                           generos_disponibles=GENEROS_PELICULAS)
+    return render_template('main/peliculas.html', peliculas=peliculas, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
     
 @main_bp.route("/series/<categoria>", methods=['GET'])
 @main_bp.route("/series/<categoria>/<int:page>", methods=['GET'])
 def series_ruta(categoria, page=1):
-    generos = request.args.getlist('selected_genres')
-    year = request.args.get('year')
-    min_vote = request.args.get('min_vote')
+    series, total_pages = pagina_series(categoria, page)
 
-    series, total_pages = pagina_series(categoria, page, generos, year, min_vote)
-
-    if series is None:
-        return "Error al obtener los datos de la API", 500
-
+    # Calcular las páginas a mostrar
     if page <= 5:
         start_page = 1
-        end_page = min(10, total_pages)
+        end_page = min(10, total_pages)  # Mostrar hasta 10 páginas
     elif page + 4 > total_pages:
-        start_page = max(1, total_pages - 9)
+        start_page = max(1, total_pages - 9)  # Asegurarse de no exceder el total
         end_page = total_pages
     else:
-        start_page = page - 4
-        end_page = page + 5
+        start_page = page - 4  # Mostrar 4 páginas antes
+        end_page = page + 5  # Mostrar 5 páginas después
 
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return render_template('main/series_grid.html', series=series, 
-                               page=page, start_page=start_page, end_page=end_page, 
-                               total_pages=total_pages, categoria=categoria, generos=generos)
-
-    return render_template('main/pag_series.html', 
-                           series=series, 
-                           categoria=categoria, 
-                           page=page, 
-                           total_pages=total_pages, 
-                           start_page=start_page, 
-                           end_page=end_page, 
-                           generos=generos, 
-                           generos_disponibles=GENEROS_SERIES)
-
+    return render_template('main/pag_series.html', series=series, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
 @main_bp.route('/movie/<int:movie_id>')
 def movie(movie_id):
     detalles_pelicula = obtener_detalles_pelicuas(movie_id)
@@ -181,70 +137,10 @@ def fundadores():
 
 
 @main_bp.route('/buscar_pelicula')
+@cache.cached(timeout=300, query_string=True)
 def buscar_pelicula():
     query = request.args.get('query')  # Término de búsqueda desde el formulario
     page = request.args.get('page', 1, type=int)  # Página actual, por defecto es 1
-
-    # URLs para buscar en películas, series y actores
-    url_peliculas = f'{base_url_api}/search/movie?api_key={api_key}&query={query}&language=en-US&page={page}'
-    url_series = f'{base_url_api}/search/tv?api_key={api_key}&query={query}&language=en-US&page={page}'
-    url_actores = f'{base_url_api}/search/person?api_key={api_key}&query={query}&language=en-US&page={page}'
-
-    # Hacer las tres solicitudes a la API de TMDB
-    response_peliculas = requests.get(url_peliculas)
-    response_series = requests.get(url_series)
-    response_actores = requests.get(url_actores)
-
-    peliculas, series, actores = [], [], []
-    imagen_por_defecto = url_for('static', filename='img/default_image.png', _external=True)
-    base_url = 'https://image.tmdb.org/t/p/w500'
-
-    # Procesar la respuesta de películas
-    if response_peliculas.status_code == 200:
-        data_peliculas = response_peliculas.json()
-        peliculas = [
-            {
-                'id': item['id'],
-                'title': item['title'],
-                'poster_url': base_url + item['poster_path'] if item.get('poster_path') else imagen_por_defecto,
-                'release_date': item.get('release_date', 'Fecha desconocida')
-            }
-            for item in data_peliculas['results']
-        ]
-
-    # Procesar la respuesta de series
-    if response_series.status_code == 200:
-        data_series = response_series.json()
-        series = [
-            {
-                'id': item['id'],
-                'title': item['name'],  # 'name' en lugar de 'title' para series
-                'poster_url': base_url + item['poster_path'] if item.get('poster_path') else imagen_por_defecto,
-                'release_date': item.get('first_air_date', 'Fecha desconocida')
-            }
-            for item in data_series['results']
-        ]
-
-    # Procesar la respuesta de actores
-    if response_actores.status_code == 200:
-        data_actores = response_actores.json()
-        actores = [
-            {
-                'id': item['id'],
-                'name': item['name'],
-                'profile_url': base_url + item['profile_path'] if item.get('profile_path') else imagen_por_defecto,
-                'known_for': [known['title'] if 'title' in known else known['name'] for known in item['known_for']]
-            }
-            for item in data_actores['results']
-        ]
-
-    # Renderizar la plantilla con los resultados combinados
-    return render_template(
-        'main/layout.html',
-        query=query,
-        peliculas=peliculas,
-        series=series,
-        actores=actores,
-        page=page
-    )
+    peliculas, series, actores = buscar_peli(query, page)  # Llama a la función del servicio
+    return render_template('main/layout.html', query=query, peliculas=peliculas, series=series, actores=actores, page=page)
 

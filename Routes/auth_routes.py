@@ -32,19 +32,19 @@ def logout():
 @auth_bp.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        full_name = request.form['full_name']  # Nuevo
         username = request.form['username']
+        email = request.form['email']  # Nuevo
         password = request.form['password']
         password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 
         try:
-            # Verificar si el usuario ya existe
-            existing_user = db_session.query(User).filter_by(username=username).first()
+            existing_user = db_session.query(User).filter((User.username == username) | (User.email == email)).first()
             if existing_user:
-                flash('El nombre de usuario ya está en uso')
+                flash('El nombre de usuario o correo ya está en uso')
                 return redirect(url_for('auth.register'))
 
-            # Crear un nuevo usuario
-            new_user = User(username=username, password_hash=password_hash)
+            new_user = User(username=username, password_hash=password_hash, email=email, full_name=full_name)  # Actualizado
             db_session.add(new_user)
             db_session.commit()
             flash('Registro exitoso!')

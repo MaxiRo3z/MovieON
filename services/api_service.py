@@ -1,4 +1,5 @@
 import requests
+from cache_config import cache
 
 api_key = 'cc0bbbd7774ce2853272ceeb3db7db56'
 base_url_api = 'https://api.themoviedb.org/3'
@@ -82,89 +83,47 @@ def obtener_categoria_series(categoria):
     }
     return categorias_validas.get(categoria, 'popular')
 
-def pagina_peliculas(categoria, page=1, generos=None, year=None, min_vote=None):
-    # Obtiene la categoría de la API
-    categoria_api = obtener_categoria(categoria)
-
-    # Configura los parámetros para la API
-    params = {
-        'api_key': api_key,
-        'language': 'en-US',
-        'page': page
-    }
-
-    # Si hay géneros seleccionados, los agregamos a los parámetros
-    if generos:
-        params['with_genres'] = ",".join(generos)
-
-    # Realiza la solicitud a la API de acuerdo a la categoría seleccionada
-    url = f'https://api.themoviedb.org/3/discover/movie' if generos else f'https://api.themoviedb.org/3/movie/{categoria_api}'
-
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        if 'results' in data:
+def pagina_peliculas(categoria, page=1):
+    if categoria in CATEGORIAS:
+        endpoint = CATEGORIAS[categoria]
+        url = f'{base_url_api}/movie/{endpoint}?api_key={api_key}&language=en-US&page={page}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            peliculas = data['results']
             base_url = 'https://image.tmdb.org/t/p/w500'
-            peliculas = [
+            peliculas_con_posters = [
                 {
                     'id': pelicula['id'],
                     'title': pelicula['title'],
                     'poster_url': base_url + pelicula['poster_path']
                 }
-                for pelicula in data['results'] if pelicula.get('poster_path')
+                for pelicula in peliculas if pelicula['poster_path']
             ]
-
-            total_pages = min(data.get('total_pages', 1), 500)
-            return peliculas, total_pages
-        else:
-            return [], 0
-    except requests.exceptions.RequestException as e:
-        print(f"Error al obtener datos de la API: {e}")
-        return None, 0
+            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
+            return peliculas_con_posters, total_pages
+    return [], 1
     
-def pagina_series(categoria, page=1, generos=None, year=None, min_vote=None):
-    categoria_api = obtener_categoria_series(categoria)
-
-    params = {
-        'api_key': api_key,
-        'language': 'en-US',
-        'page': page
-    }
-
-    if generos:
-        params['with_genres'] = ",".join(generos)
-    if year:
-        params['year'] = year
-    if min_vote:
-        params['vote_average.gte'] = min_vote
-
-    url = f'https://api.themoviedb.org/3/discover/tv' if generos else f'https://api.themoviedb.org/3/tv/{categoria_api}'
-
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        if 'results' in data:
+def pagina_series(categoria, page=1):
+    if categoria in CATEGORIAS_SERIES:
+        endpoint = CATEGORIAS_SERIES[categoria]
+        url = f'{base_url_api}/tv/{endpoint}?api_key={api_key}&language=en-US&page={page}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            series = data['results']
             base_url = 'https://image.tmdb.org/t/p/w500'
-            series = [
+            series_con_posters = [
                 {
                     'id': serie['id'],
-                    'title': serie['name'],
+                    'name': serie['name'],  # Cambia 'title' por 'name'
                     'poster_url': base_url + serie['poster_path']
                 }
-                for serie in data['results'] if serie.get('poster_path') is not None
+                for serie in series if serie.get('poster_path')  # Usa get para evitar errores
             ]
-
-            total_pages = min(data.get('total_pages', 1), 500)
-            return series, total_pages
-        else:
-            return [], 0
-    except requests.exceptions.RequestException as e:
-        print(f"Error al obtener datos de la API: {e}")
-        return [], 0  # Retorna una lista vacía en caso de error
+            total_pages = min(data['total_pages'], 500)  # Limitar total_pages a un máximo de 500
+            return series_con_posters, total_pages
+    return [], 1
 
 def obtener_series_proximas():
     url = f'{base_url_api}/tv/on_the_air?api_key={api_key}&language=en-US&page=1'
@@ -309,3 +268,59 @@ def pagina_actores(page=1):
     
     return [], 1
 
+@cache.cached(timeout=300, query_string=True)  # Cachea la búsqueda por 5 minutos
+def buscar_peli(query, page):
+    # URLs para buscar en películas, series y actores
+    url_peliculas = f'{base_url_api}/search/movie?api_key={api_key}&query={query}&language=en-US&page={page}'
+    url_series = f'{base_url_api}/search/tv?api_key={api_key}&query={query}&language=en-US&page={page}'
+    url_actores = f'{base_url_api}/search/person?api_key={api_key}&query={query}&language=en-US&page={page}'
+
+    # Hacer las tres solicitudes a la API de TMDB
+    peliculas, series, actores = [], [], []
+    
+    try:
+        response_peliculas = requests.get(url_peliculas)
+        response_series = requests.get(url_series)
+        response_actores = requests.get(url_actores)
+
+        if response_peliculas.status_code == 200:
+            data_peliculas = response_peliculas.json()
+            base_url = 'https://image.tmdb.org/t/p/w500'
+            peliculas = [
+                {
+                    'id': item['id'],
+                    'title': item['title'],
+                    'poster_url': base_url + item['poster_path'] if item.get('poster_path') else 'img/default_image.png',
+                    'release_date': item.get('release_date', 'Fecha desconocida')
+                }
+                for item in data_peliculas['results']
+            ]
+
+        if response_series.status_code == 200:
+            data_series = response_series.json()
+            series = [
+                {
+                    'id': item['id'],
+                    'title': item['name'],
+                    'poster_url': base_url + item['poster_path'] if item.get('poster_path') else 'img/default_image.png',
+                    'release_date': item.get('first_air_date', 'Fecha desconocida')
+                }
+                for item in data_series['results']
+            ]
+
+        if response_actores.status_code == 200:
+            data_actores = response_actores.json()
+            actores = [
+                {
+                    'id': item['id'],
+                    'name': item['name'],
+                    'profile_url': base_url + item['profile_path'] if item.get('profile_path') else 'img/default_image.png',
+                    'known_for': [known['title'] if 'title' in known else known['name'] for known in item['known_for']]
+                }
+                for item in data_actores['results']
+            ]
+
+    except requests.RequestException as e:
+        print(f'Error en la conexión a la API: {e}')
+
+    return peliculas, series, actores

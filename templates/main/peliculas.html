@@ -6,27 +6,36 @@
 
 {% block content %}
 <div class="container">
-    <!-- Sidebar de filtros -->
-    <div class="sidebar">
-        <h3>Géneros</h3>
-        <div class="genres">
-            <form method="get" action="{{ url_for('main.peliculas_ruta', categoria=categoria) }}" onsubmit="return false;">
-                <div class="genres">
-                    {% for id, nombre in generos_disponibles.items() %}
-                        <button type="button" class="genre-button {% if id in generos %}active{% endif %}" data-id="{{ id }}" onclick="toggleGenre(this)">
-                            {{ nombre }}
-                        </button>
-                    {% endfor %}
+
+    <div class="movies-grid">
+        <div class="grid">
+            {% for pelicula in peliculas %}
+                <div class="movie-card">
+                    <a href="{{ url_for('main.movie', movie_id= pelicula['id']) }}">
+                        <img src="{{ pelicula['poster_url'] }}" alt="{{ pelicula['title'] }}" loading="lazy">
+                    </a>
                 </div>
-                <input type="hidden" name="selected_genres" id="selected_genres" value="{{ generos | join(',') }}">
-            </form>
+            {% endfor %}
         </div>
     </div>
-
-    <!-- Grid de películas -->
-    <div class="movies-grid">
-        {% include 'main/peliculas_grid.html' %}
-    </div>
+</div>
+<div id="paginador" class="pagination">
+    {% if page > 1 %}
+        <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=1)}}">Primera</a>
+    {% endif %}
+    {% if page > 1 %}
+        <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page-1)}}">Anterior</a>
+    {% endif %}
+    {% for p in range(start_page, end_page + 1) %}
+        <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=p)}}" 
+           class="{% if p == page %}active{% endif %}">{{ p }}</a>
+    {% endfor %}
+    {% if page < total_pages %}
+        <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=page+1)}}">Siguiente</a>
+    {% endif %}
+    {% if page < total_pages %}
+        <a href="{{ url_for('main.peliculas_ruta', categoria=categoria, page=total_pages)}}">Última</a>
+    {% endif %}
 </div>
 {% endblock %}
 
