@@ -3,57 +3,11 @@ import math
 from services.api_service import *
 from . import main_bp
 from cache_config import cache  # Importa cache aquí
-
-GENEROS_PELICULAS= {
-    "28": "Acción",
-    "12": "Aventura",
-    "16": "Animación",
-    "35": "Comedia",
-    "80": "Crimen",
-    "99": "Documental",
-    "18": "Drama",
-    "10751": "Familia",
-    "14": "Fantasía",
-    "36": "Historia",
-    "27": "Terror",
-    "10402": "Música",
-    "9648": "Misterio",
-    "10770": "Película de TV",
-    "10749": "Romance",
-    "878": "Ciencia ficción",
-    "53": "Suspense",
-    "10752": "Bélica",
-    "37": "Western",
-    # Agrega más géneros aquí si es necesario
-}
+import aiohttp
+import asyncio
+from aiohttp import ClientSession, TCPConnector
 
 
-GENEROS_SERIES= {
-    "28": "Acción",
-    "12": "Aventura",
-    "16": "Animación",
-    "35": "Comedia",
-    "80": "Crimen",
-    "99": "Documental",
-    "18": "Drama",
-    "10751": "Familia",
-    "14": "Fantasía",
-    "36": "Historia",
-    "27": "Terror",
-    "10402": "Música",
-    "9648": "Misterio",
-    "10770": "Película de TV",
-    "10749": "Romance",
-    "878": "Ciencia ficción",
-    "53": "Suspense",
-    "10752": "Bélica",
-    "37": "Western",
-    "10759": "Acción y Aventura",
-    "10765": "Ciencia ficción y Fantasía",
-    "10766": "Telenovela",
-    "10767": "Reality",
-    "10768": "Guerra",
-}
 
 @main_bp.route("/")
 def index():
@@ -98,17 +52,18 @@ def series_ruta(categoria, page=1):
         end_page = page + 5  # Mostrar 5 páginas después
 
     return render_template('main/pag_series.html', series=series, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+
 @main_bp.route('/movie/<int:movie_id>')
-def movie(movie_id):
-    detalles_pelicula = obtener_detalles_pelicuas(movie_id)
+async def movie(movie_id):
+    detalles_pelicula = await obtener_detalles_pelicuas(movie_id)
     if detalles_pelicula:
         return render_template("main/movie.html", detalles_pelicula=detalles_pelicula)
     else:
         return "Pelicula no encontrada", 404
 
 @main_bp.route('/series/<int:serie_id>')
-def serie(serie_id):
-    detalles_series = obtener_detalles_series(serie_id)
+async def serie(serie_id):
+    detalles_series = await obtener_detalles_series(serie_id)
     if detalles_series:
         return render_template("main/series.html", detalles_serie=detalles_series)
     else:

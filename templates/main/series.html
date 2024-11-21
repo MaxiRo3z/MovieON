@@ -10,17 +10,17 @@
 <div class="movie-details-container" style="background-image: url('{{ detalles_serie.url_backdrop }}');">
     <div class="movie-header">
         <div class="poster">
-            <img src="{{ detalles_serie.url_poster or '/static/img/default-poster.jpg' }}" alt="Poster de la película">
+            <img src="{{ detalles_serie.url_poster or '/static/img/default-poster.jpg' }}" alt="Poster de la serie">
         </div>
         <div class="movie-info">
-            <h1>{{ detalles_serie.titulo_pelicula }}</h1> <!-- Cambiar a titulo_pelicula -->
+            <h1>{{ detalles_serie.titulo_serie }}</h1> <!-- Corregido a titulo_serie -->
             <div class="sub-info">
                 <span>Fecha de estreno: {{ detalles_serie.fecha_estreno }}</span>
                 <span class="classification">{{ detalles_serie.clasificacion }}</span>
             </div>
             <div class="user-rating">
-                <div class="rating-circle">{{ detalles_serie.puntuacion_usuario }}</div> <!-- Cambiar a puntuacion_usuario -->
-                <button class="vibe-btn">Califica esta película</button>
+                <div class="rating-circle">{{ detalles_serie.puntuacion_usuario }}</div>
+                <button class="vibe-btn">Califica esta serie</button>
             </div>
             <div class="movie-actions">
                 <button class="action-btn">Me gusta</button>
@@ -29,15 +29,34 @@
             </div>
             <div class="movie-overview">
                 <h2>Vista General</h2>
-                <p>{{ detalles_serie.resumen_pelicula }}</p> <!-- Cambiar a resumen_pelicula -->
+                <p>{{ detalles_serie.resumen_serie }}</p> <!-- Corregido a resumen_serie -->
+            </div>
+            <div class="streaming-platforms">
+                <h2>Disponible en:</h2>
+                <div class="platform-logos">
+                    {% for plataforma in detalles_serie.plataformas %}
+                        <img src="{{ plataforma.logo_url }}" alt="{{ plataforma.nombre }}" class="platform-logo">
+                    {% endfor %}
+                </div>
             </div>
             <div class="crew">
                 <p><strong>Director:</strong> {{ detalles_serie.director }}</p>
                 <p><strong>Guionista:</strong> {{ detalles_serie.guionista }}</p>
-                <!-- Agrega más detalles del equipo aquí -->
             </div>
         </div>
     </div>
 </div>
-
+{% if detalles_serie.trailer_url %}
+<div id="trailer-container">
+    <h2>Tráiler</h2>
+    <iframe id="trailer-iframe" src="{{ detalles_serie.trailer_url }}" width="100%" height="450" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+{% else %}
+<div id="trailer-container">
+    <h2>Tráiler</h2>
+    <div class="no-trailer-message">
+        <p>Tráiler no disponible</p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

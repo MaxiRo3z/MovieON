@@ -173,7 +173,30 @@ body {
     transform: scale(1.02); /* Efecto de aumento al pasar el mouse */
 }
 
+.no-trailer-message {
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
+    border-radius: 10px; /* Bordes redondeados */
+    display: inline-block; /* Para ajustar el tamaño al contenido */
+    margin-top: 20px;
+}
+
 h2 {
     color: white; /* Color del título del tráiler */
     margin-bottom: 15px; /* Espaciado inferior */
 }
+
+.platform-logos {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.platform-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+

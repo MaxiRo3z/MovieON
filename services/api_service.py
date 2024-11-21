@@ -1,5 +1,8 @@
 import requests
 from cache_config import cache
+import aiohttp
+import asyncio
+from aiohttp import ClientSession, TCPConnector
 
 api_key = 'cc0bbbd7774ce2853272ceeb3db7db56'
 base_url_api = 'https://api.themoviedb.org/3'
@@ -161,34 +164,51 @@ def obtener_series_populares():
         return series_con_postersp
     return []
 
-def obtener_detalles_pelicuas(movie_id):
+async def obtener_detalles_pelicuas_async(movie_id: int, session: ClientSession):
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
     base_url_backdrop = 'https://image.tmdb.org/t/p/original'
-    response = requests.get(f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=en-US")
-    credits_response = requests.get(f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=en-US")
-    videos_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
+    base_url_logo = 'https://image.tmdb.org/t/p/original'
 
-    if response.status_code == 200 and credits_response.status_code == 200 and videos_response.status_code == 200:
-        data = response.json()
-        credits_data = credits_response.json()
-        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
+    endpoints = {
+        "movie": f"{base_url_api}/movie/{movie_id}?api_key={api_key}&language=en-US",
+        "credits": f"{base_url_api}/movie/{movie_id}/credits?api_key={api_key}&language=en-US",
+        "videos": f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US",
+        "providers": f"{base_url_api}/movie/{movie_id}/watch/providers?api_key={api_key}",
+    }
 
-    if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
-        data = response.json()
-        credits_data = credits_response.json()
-        video_response = requests.get(f"{base_url_api}/movie/{movie_id}/videos?api_key={api_key}&language=en-US")
+    # Configura el conector para desactivar la verificación SSL
+    connector = TCPConnector(ssl=False)
 
-    if response.status_code == 200 and credits_response.status_code == 200 and video_response.status_code == 200:
-        data = response.json()
-        credits_data = credits_response.json()
-        video_data = video_response.json()
+    # Realizamos las solicitudes concurrentes utilizando asyncio.gather
+    async with ClientSession(connector=connector) as session:
+        responses = await asyncio.gather(
+            session.get(endpoints["movie"]),
+            session.get(endpoints["credits"]),
+            session.get(endpoints["videos"]),
+            session.get(endpoints["providers"])
+        )
 
-        # Filtrar el equipo (crew) para obtener director y guionista
+        data = await responses[0].json() if responses[0].status == 200 else None
+        credits_data = await responses[1].json() if responses[1].status == 200 else None
+        video_data = await responses[2].json() if responses[2].status == 200 else None
+        providers_data = await responses[3].json() if responses[3].status == 200 else None
+
+    # Comprobar que todos los datos son válidos
+    if data and credits_data and video_data and providers_data:
+        plataformas = []
+        if "results" in providers_data:
+            region_data = providers_data["results"].get("US")
+            if region_data and "flatrate" in region_data:
+                flatrate = region_data["flatrate"]
+                plataformas = [
+                    {'nombre': prov['provider_name'], 'logo_url': base_url_logo + prov['logo_path']}
+                    for prov in flatrate
+                ]
+
         crew = credits_data['crew']
         directores = [person['name'] for person in crew if person['job'] == 'Director']
         guionistas = [person['name'] for person in crew if person['job'] in ['Screenplay', 'Writer']]
 
-        # Obtener el primer tráiler de YouTube disponible
         trailer_url = None
         for video in video_data['results']:
             if video['type'] == 'Trailer' and video['site'] == 'YouTube':
@@ -204,46 +224,98 @@ def obtener_detalles_pelicuas(movie_id):
             'duracion': f"{data['runtime']} mins",
             'puntuacion_usuario': int(data['vote_average'] * 10),
             'resumen_pelicula': data['overview'],
-            'director': ','.join(directores) if directores else 'Desconocido',
-            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',
+            'director': ', '.join(directores) if directores else 'Desconocido',
+            'guionista': ', '.join(guionistas) if guionistas else 'Desconocido',
             'url_poster': base_url_poster + data['poster_path'],
             'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None,
-            'trailer_url': trailer_url  # Añadimos la URL del tráiler
+            'trailer_url': trailer_url,
+            'plataformas': plataformas or [{'nombre': 'No disponible', 'logo_url': None}]
         }
+
         return detalles_pelicula
+    return None
+
+async def obtener_detalles_pelicuas(movie_id: int):
+    # Establecemos el conector para la sesión aquí
+    connector = TCPConnector(ssl=False)
+    async with ClientSession(connector=connector) as session:
+        return await obtener_detalles_pelicuas_async(movie_id, session)
     
-def obtener_detalles_series(serie_id):
+
+    
+async def obtener_detalles_series_async(serie_id: int, session: ClientSession):
     base_url_poster = 'https://image.tmdb.org/t/p/w500'
     base_url_backdrop = 'https://image.tmdb.org/t/p/original'
+    base_url_logo = 'https://image.tmdb.org/t/p/original'
 
-    response = requests.get(f"{base_url_api}/tv/{serie_id}?api_key={api_key}&language=en-US")
-    credits_response = requests.get(f"{base_url_api}/tv/{serie_id}/credits?api_key={api_key}&language=en-US")
-    
-    if response.status_code == 200 and credits_response.status_code == 200:
-        data = response.json()
-        credits_data = credits_response.json()
+    endpoints = {
+        "serie": f"{base_url_api}/tv/{serie_id}?api_key={api_key}&language=en-US",
+        "credits": f"{base_url_api}/tv/{serie_id}/credits?api_key={api_key}&language=en-US",
+        "videos": f"{base_url_api}/tv/{serie_id}/videos?api_key={api_key}&language=en-US",
+        "providers": f"{base_url_api}/tv/{serie_id}/watch/providers?api_key={api_key}",
+    }
 
-        # Filtrar el equipo (crew) para obtener director y guionista
+    # Realizamos las solicitudes concurrentes utilizando asyncio.gather
+    responses = await asyncio.gather(
+        session.get(endpoints["serie"]),
+        session.get(endpoints["credits"]),
+        session.get(endpoints["videos"]),
+        session.get(endpoints["providers"])
+    )
+
+    data = await responses[0].json() if responses[0].status == 200 else None
+    credits_data = await responses[1].json() if responses[1].status == 200 else None
+    video_data = await responses[2].json() if responses[2].status == 200 else None
+    providers_data = await responses[3].json() if responses[3].status == 200 else None
+
+    # Comprobar que todos los datos son válidos
+    if data and credits_data and video_data and providers_data:
+        plataformas = []
+        if "results" in providers_data:
+            region_data = providers_data["results"].get("US")
+            if region_data and "flatrate" in region_data:
+                flatrate = region_data["flatrate"]
+                plataformas = [
+                    {'nombre': prov['provider_name'], 'logo_url': base_url_logo + prov['logo_path']}
+                    for prov in flatrate
+                ]
+
         crew = credits_data['crew']
         directores = [person['name'] for person in crew if person['job'] == 'Director']
         guionistas = [person['name'] for person in crew if person['job'] in ['Screenplay', 'Writer']]
 
+        trailer_url = None
+        for video in video_data['results']:
+            if video['type'] == 'Trailer' and video['site'] == 'YouTube':
+                trailer_url = f"https://www.youtube.com/embed/{video['key']}"
+                break
+
         detalles_serie = {
-            'titulo_pelicula': data['name'],
+            'titulo_serie': data['name'],
             'anio_estreno': data['first_air_date'][:4],
             'clasificacion': 'PG-13' if data['adult'] else 'PG',
             'fecha_estreno': data['first_air_date'],
             'generos': ', '.join([g['name'] for g in data['genres']]),
             'duracion': f"{data['episode_run_time'][0]} mins" if data['episode_run_time'] else 'Desconocido',
             'puntuacion_usuario': int(data['vote_average'] * 10),
-            'resumen_pelicula': data['overview'],
-            'director': ','.join(directores) if directores else 'Desconocido',  # Añadir lógica para obtener el director
-            'guionista': ','.join(guionistas) if guionistas else 'Desconocido',  # Añadir lógica para obtener el guionista
+            'resumen_serie': data['overview'],
+            'director': ', '.join(directores) if directores else 'Desconocido',
+            'guionista': ', '.join(guionistas) if guionistas else 'Desconocido',
             'url_poster': base_url_poster + data['poster_path'],
-            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None  # Imagen de fondo
+            'url_backdrop': base_url_backdrop + data['backdrop_path'] if data['backdrop_path'] else None,
+            'trailer_url': trailer_url,
+            'plataformas': plataformas or [{'nombre': 'No disponible', 'logo_url': None}]
         }
-    return detalles_serie
 
+        return detalles_serie
+    return None
+
+async def obtener_detalles_series(serie_id: int):
+    # Establecemos el conector para la sesión aquí
+    connector = TCPConnector(ssl=False)
+    async with ClientSession(connector=connector) as session:
+        return await obtener_detalles_series_async(serie_id, session)
+    
 def pagina_actores(page=1):
     """Obtiene los actores populares de la API de TMDB."""
     url = f'{base_url_api}/person/popular?api_key={api_key}&language=en-US&page={page}'
