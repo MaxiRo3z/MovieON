@@ -76,6 +76,8 @@ h1 a:hover {
     position: relative;
 }
 
+
+
 .nav_list li {
     position: relative; /* Necesario para posicionar el dropdown */
 }
@@ -115,13 +117,30 @@ h1 a:hover {
     padding: 5px 0; /* Espaciado interno reducido */
     top: 32px; /* Aumenta el margen superior para separar el dropdown */
 }
+.dropdowns {
+    display: none; /* Oculta el menú desplegable inicialmente */
+    position: absolute; /* Posiciona el dropdown */
+    left: 0; /* Alinea el dropdown con el padre */
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 4px; /* Esquinas redondeadas */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 5px 0; /* Espaciado interno reducido */
+    top: 32px; /* Aumenta el margen superior para separar el dropdown */
+}
 
 .nav_list li:hover .dropdown {
+    display: block; /* Muestra el dropdown al pasar el mouse */
+}
+.nav_list li:hover .dropdowns {
     display: block; /* Muestra el dropdown al pasar el mouse */
 }
 
 /* Elementos del dropdown */
 .dropdown li {
+    padding: 4px 12px; /* Espacio entre los elementos del dropdown */
+}
+.dropdowns li {
     padding: 4px 12px; /* Espacio entre los elementos del dropdown */
 }
 
@@ -131,8 +150,18 @@ h1 a:hover {
     display: block; /* Hace clic en toda el área del enlace */
     transition: background-color 0.2s; /* Transición suave para el fondo */
 }
+.dropdowns a {
+    color: #333; /* Color de texto del dropdown */
+    font-size: 14px; /* Tamaño de fuente del dropdown */
+    display: block; /* Hace clic en toda el área del enlace */
+    transition: background-color 0.2s; /* Transición suave para el fondo */
+}
 
 .dropdown a:hover {
+    background-color: #f58723; /* Fondo al pasar el mouse */
+    color: #fff; /* Color de texto al pasar el mouse */
+}
+.dropdowns a:hover {
     background-color: #f58723; /* Fondo al pasar el mouse */
     color: #fff; /* Color de texto al pasar el mouse */
 }
@@ -186,6 +215,38 @@ h1 a:hover {
     background-color: #f58723;
     color: white;
     text-decoration: none;
+}
+.nav_toggle {
+    display: block; /* Por defecto no se muestra */
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+}
+.nav_list.active {
+    display: flex;
+}
+@media (max-width: 768px) {
+    .nav_toggle {
+        display: block;
+    }
+
+    .header_right {
+        display: none; /* Opcional: Oculta otros elementos en móviles */
+    }
+    .nav_list {
+        flex-direction: column; /* Los elementos se apilan en columna */
+        gap: 10px;
+        background-color: #333; /* Color de fondo del menú móvil */
+        position: static;
+        top: 60px; /* Ajusta según la altura del header */
+        left: 0;
+        width: 100%; /* Ocupa todo el ancho */
+        z-index: 1000;
+        padding: 10px;
+    }
 }
 
 .icon_button {
@@ -307,21 +368,6 @@ h1 a:hover {
 .search-input:hover {
     box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2); /* Sombra al pasar el ratón */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*---------------------------------------------------------------------------Estrenos--------------------------------------------------------------------*/
 
 h2, small, a{
@@ -341,12 +387,14 @@ h2, small, a{
 }
 .carrousel {
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center; /* Asegura que el carrusel esté centrado */
+    position: relative
 }
+
 
 .carrousel h2 {
     font-size: 30px;
@@ -355,7 +403,7 @@ h2, small, a{
     font-weight: 600;
     color: #ffffff;
     margin: 20px 0 10px 0; /* Elimina margen izquierdo */
-    text-align: left;
+    text-align: start;
     width: 88vw; /* Asegura que el ancho sea el mismo que el del carrusel */
     padding-left: calc((100% - 88vw) / 2 - 80px); /* Alinea los títulos con el carrusel */
 }
@@ -368,9 +416,12 @@ h2, small, a{
     max-width: 88vw; /* Ajusta el ancho del carrusel */
     height: 400px;
     overflow: hidden;
-    margin: auto;
+    /*margin: auto;*/
     padding: 20px 0;
     border-radius: 15px;
+}
+.carrousel_list img {
+    width: 90%;
 }
 
 .carrusel-track {
@@ -452,25 +503,6 @@ h2, small, a{
 /*---------------------------------------------------------------------------Peliculas--------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------Peliculas--------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*---------------------------------------------------------------------------Footer--------------------------------------------------------------------*/
 .container{
@@ -563,12 +595,42 @@ ul{
 }
 /*---------------------------------------------------------------------------Footer--------------------------------------------------------------------*/
 
-
-
-
 /*---------------------------------------------------------------------------Movies--------------------------------------------------------------------*/
 
 /*-----------------------------------Registro/Inicio de sesion----------------------------------------------------*/
+
+/* Estilo adicional para el botón en dispositivos móviles */
+@media (max-width: 768px) {
+    .carrusel {
+        flex: 0 0 auto; /* No permite que el carrusel se redimensione */
+        width: 88vw; /* Asegura que el carrusel ocupe todo el ancho de la pantalla */
+        align-items: center;
+    }
+
+    .carrusel a img {
+        width: 100%; /* Las imágenes ocuparán el 100% del contenedor */
+    }
+
+    .carrusel_list {
+        display: flex;
+        justify-content: center; /* Centra los elementos dentro del carrusel */
+        overflow: hidden; /* Esconde las imágenes que están fuera del área visible */
+        align-items: center;
+        max-width: 88vw;
+        width: 100%;
+    }
+
+    .carrusel-track {
+        display: flex;
+        transition: .5s ease-in-out; /* Añade una transición suave para el desplazamiento */
+        align-items: center;
+        align-self: center;
+    }
+    .carrousel {
+        align-items: center;
+        margin: 0 auto;
+    }
+}
 
 
 /* Estilo adicional para el botón en dispositivos móviles */
@@ -577,8 +639,36 @@ ul{
         padding: 8px 12px;
         font-size: 14px;
     }
+}
+    
+/* Estilo adicional para el botón en dispositivos móviles */
+@media (max-width: 768px) {
+    .search-input {
+        padding: 8px 12px;
+        font-size: 14px;
+}}
 
-    .search-button {
-        padding: 8px;
+
+
+
+/* Tablets */
+@media screen and (min-width: 768px) {
+    .carrousel {
+        width: 100vw;
+    }
+     .carrusel a img {
+        width: 100%; /* Las imágenes ocuparán el 100% del contenedor */
+        /*height: 100%; /* Mantiene la relación de aspecto */
+        object-fit: cover; /* Asegura que las imágenes cubran todo el espacio del contenedor */
+    }
+}
+
+/* Computadoras */
+@media screen and (min-width: 1024px) {
+    .carrousel {
+        width: 100%;
+    }
+    .carrusel-track img {
+        max-width: 250px;
     }
 }

@@ -23,16 +23,16 @@
         <nav class="nav">
             <ul class="nav_list">
                 <li>
-                    <a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Películas</a>
-                    <ul class="dropdown">
-                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Populares</a></li>
-                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='en_cartelera', page=1) }}">En cartelera</a></li>
-                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='proximas', page=1) }}">Próximamente</a></li>
-                        <li><a href="{{ url_for('main.peliculas_ruta', categoria='mejor_puntuadas', page=1) }}">Mejor puntuadas</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Series</a>
+                            <a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Películas</a>
+                            <ul class="dropdowns">
+                                <li><a href="{{ url_for('main.peliculas_ruta', categoria='populares', page=1) }}">Populares</a></li>
+                                <li><a href="{{ url_for('main.peliculas_ruta', categoria='en_cartelera', page=1) }}">En cartelera</a></li>
+                                <li><a href="{{ url_for('main.peliculas_ruta', categoria='proximas', page=1) }}">Próximamente</a></li>
+                                <li><a href="{{ url_for('main.peliculas_ruta', categoria='mejor_puntuadas', page=1) }}">Mejor puntuadas</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Series</a>
                     <ul class="dropdown">
                         <li><a href="{{ url_for('main.series_ruta', categoria='populares', page=1) }}">Populares</a></li>
                         <li><a href="{{ url_for('main.series_ruta', categoria='se_emiten_hoy', page=1) }}">Se emiten hoy</a></li>
@@ -50,8 +50,8 @@
                     <a href="#">Más</a>
                     <ul class="dropdown">
                         <li><a href="{{ url_for('main.fundadores') }}">Fundadores</a></li>
-                        <li><a href="#">Soporte Ténico</a></li>
-                        <li><a href="#">Manual de usuario</a></li>
+                        <li><a href="{{ url_for('main.soporte') }}">Soporte Ténico</a></li>
+                        <li><a href="{{ url_for('main.manual') }}">Manual de usuario</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,0 +1,43 @@
+.container-main {
+    background-image: url(../img/fondo.jpg);
+    background-size: 100%;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.download-container{
+    display: flex;
+    flex-direction: column;
+    background-color:#e88930;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 50%;
+    border-radius: 10px;
+    box-shadow: 4px 10px 20px 0 #0000002e;
+}
+.download-container h1 {
+    padding: 3%;
+    margin-left: 5px;
+}
+
+.download-container button {
+    cursor: pointer;
+    border-style: none;
+    outline: none;
+    padding: 15px;
+    transition: transform 0.2s;
+    background-color: white;
+}
+
+.download-container button:hover {
+    transform: scale(1.05);
+}
+
+.download-container button label {
+    cursor: pointer;
+    font-size: 30px;
+}

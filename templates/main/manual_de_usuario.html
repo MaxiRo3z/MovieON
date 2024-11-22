@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/manual_de_usuario.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container-main">
+    <div class="download-container">
+        <h1>Para descargar el manual de usuario, haz click en el boton "Descargar manual de usuario"</h1>
+        <button><label for="button">Descargar manual de usuario</label></button>
+    </div>
+</div>
+{% endblock %}    

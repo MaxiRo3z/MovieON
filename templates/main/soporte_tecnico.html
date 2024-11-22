@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}MovieON - Inicio{% endblock %}
+
+{% block custom_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/soporte_tecnico.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="section1">
+    <div class="text">
+        <h1>
+            Soporte técnico
+        </h1>
+        <h3>
+            Asegurate que tu consulta no se encuentre dentro de las consultas frecuentes, si no es así, no dudes en consultarnos.
+        </h2>
+        <a href="#consultas">
+            <button type="submit">Preguntas frecuentes</button>
+        </a>
+    </div>
+    <div class="text-input">
+        <h2>Ingresa tu consulta en el cuadro de texto</h2>
+        <textarea rows="4" cols="50" placeholder="Escribe aquí..."></textarea>
+        <button type="submit">Enviar</button>
+    </div>
+</section>
+<section id="consultas" class="section2">
+    <div class="consultas-section2">
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">¿Como puedo crearme una cuenta?</div>
+            <div class="faq-answer">Puede hacerlo a traves del boton "Unete" en la esquina superior derecha, si tiene problemas persistentes a la hora de crear tu cuenta, contactanos a traves de soporte@MovieON.com</div>
+        </div>
+    
+        <!-- Pregunta 2 -->
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">¿Puedo reproducir la pelicula que quiero desde la web MovieON?</div>
+            <div class="faq-answer">Nosotros no somos una pagina de streaming, unicamente somos un buscador de peliculas. Estamos en contra de la pirateria y por eso jamás te recomendariamos RedMovieON.com</div>
+        </div>
+    
+        <!-- Pregunta 3 -->
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">No encuentro la pelicula que busco</div>
+            <div class="faq-answer">Lo más probable es que se suba a la web en breve, si luego de un tiempo sigue sin aparecer, contactanos a traves del correo soporte@MovieON.com</div>
+        </div>
+    
+        <!-- Pregunta 4 -->
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">¿Cómo puedo contactar con el servicio al cliente?</div>
+            <div class="faq-answer">Puedes contactar con nuestro servicio al cliente enviando un correo a soporte@MovieON.com</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

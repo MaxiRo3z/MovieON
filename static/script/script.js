@@ -18,7 +18,6 @@ App.prototype.processingButton = function(event) {
     const track = carruselList.querySelector('#track');
     const carruseles = track.querySelectorAll('.carrusel');
     const carruselWidth = carruseles[0].offsetWidth;
-
     const trackWidth = track.scrollWidth; // Total width of all items
     const listWidth = carruselList.offsetWidth; // Width of the visible area
     let leftPosition = parseFloat(track.style.transform.replace('translateX(', '').replace('px)', '')) || 0;
@@ -70,3 +69,6 @@ function mostrarTrailer() {
     trailerContainer.style.display = "block";
 }
 
+function toggleFAQ(faqItem) {
+    faqItem.classList.toggle("active");
+}

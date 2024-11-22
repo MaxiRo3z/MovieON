@@ -86,10 +86,18 @@ def actores_populares(page=1):
         end_page = page + 5
 
     return render_template('main/actores_populares.html', actores=actores, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
+
 @main_bp.route('fundadores')
 def fundadores():
     return render_template("main/fundadores.html")
 
+@main_bp.route('soporte')
+def soporte():
+    return render_template("main/soporte_tecnico.html")
+
+@main_bp.route('manual')
+def manual():
+    return render_template("main/manual_de_usuario.html")
 
 @main_bp.route('/buscar_pelicula')
 @cache.cached(timeout=300, query_string=True)
@@ -98,4 +106,3 @@ def buscar_pelicula():
     page = request.args.get('page', 1, type=int)  # Página actual, por defecto es 1
     peliculas, series, actores = buscar_peli(query, page)  # Llama a la función del servicio
     return render_template('main/layout.html', query=query, peliculas=peliculas, series=series, actores=actores, page=page)
-
