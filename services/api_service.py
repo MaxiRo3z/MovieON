@@ -216,6 +216,7 @@ async def obtener_detalles_pelicuas_async(movie_id: int, session: ClientSession)
                 break
 
         detalles_pelicula = {
+            'id': data['id'],
             'titulo_pelicula': data['title'],
             'anio_estreno': data['release_date'][:4],
             'clasificacion': 'PG-13' if data['adult'] else 'PG',

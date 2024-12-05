@@ -6,7 +6,9 @@ from cache_config import cache  # Importa cache aquí
 import aiohttp
 import asyncio
 from aiohttp import ClientSession, TCPConnector
-
+from database.db import session
+from datetime import datetime
+from database.models import Comment
 
 
 @main_bp.route("/")
@@ -53,13 +55,28 @@ def series_ruta(categoria, page=1):
 
     return render_template('main/pag_series.html', series=series, categoria=categoria, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page)
 
-@main_bp.route('/movie/<int:movie_id>')
+@main_bp.route('/movie/<int:movie_id>', methods=['GET', 'POST'])
 async def movie(movie_id):
     detalles_pelicula = await obtener_detalles_pelicuas(movie_id)
-    if detalles_pelicula:
-        return render_template("main/movie.html", detalles_pelicula=detalles_pelicula)
-    else:
-        return "Pelicula no encontrada", 404
+
+    if request.method == 'POST':
+        comentario = request.form['comentario']
+    if comentario:
+        # Verificar si el comentario ya existe para evitar duplicados
+        existing_comment = session.query(Comment).filter_by(movie_id=movie_id, content=comentario).first()
+        if not existing_comment:
+            new_comment = Comment(
+                movie_id=movie_id,
+                content=comentario,
+                created_at=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            )
+            session.add(new_comment)
+            session.commit()
+
+    # Obtener los comentarios de la película desde la base de datos
+    comments = session.query(Comment).filter_by(movie_id=movie_id).all()
+
+    return render_template("main/movie.html", detalles_pelicula=detalles_pelicula, comments=comments)
 
 @main_bp.route('/series/<int:serie_id>')
 async def serie(serie_id):
