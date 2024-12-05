@@ -58,7 +58,7 @@ def series_ruta(categoria, page=1):
 @main_bp.route('/movie/<int:movie_id>', methods=['GET', 'POST'])
 async def movie(movie_id):
     detalles_pelicula = await obtener_detalles_pelicuas(movie_id)
-
+    comentario= None
     if request.method == 'POST':
         comentario = request.form['comentario']
     if comentario:
